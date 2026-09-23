@@ -4,11 +4,19 @@ Um gestor de projectos e tarefas para freelancers feito 3 vezes em tres framewor
 
 ## Estrutura
 
-Caso-Pratico-Gestor-Projectos/
-|--- versao-jquery/ ....................index.html, style.css, script.js
-|--- versao-react/ ....................React app (Vite)
-|--- versao-angular/ ...................Angular app
-|---README.md
+```
+ProjetoFinal_Tarefas/
+├── versao-jquery/
+│   ├── lib/
+│   │   └── jquery-3.7.1.min.js
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+├── versao-react/          React app (Vite)
+├── versao-angular/        Angular app
+├── .gitignore
+└── README.md
+```
 
 ## Modelo de Tarefa
 
