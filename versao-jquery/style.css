@@ -1,0 +1,28 @@
+/* Base */
+
+:root {
+  --bg: ;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --border: #e2e6ec;
+  --primary: #2563eb;
+
+  /* Prioridade */
+
+  --prio-baixa: #16a34a;
+  --prio-media: #d97706;
+  --prio-alta: #dc2626;
+
+  /* Estado das colunas */
+
+  --estado-por-fazer: #64748b;
+  --estado-em-progresso: #2563eb;
+  --estado-concluida: #16a34a;
+
+  /* Tipografia e formatação */
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 8px;
+  --gap: 1rem;
+}
