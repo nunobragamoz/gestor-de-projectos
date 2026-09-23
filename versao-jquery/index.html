@@ -1,199 +1,352 @@
 <!doctype html>
-<html lang="pt">
+
+<html lang="pt-PT">
+
   <head>
-    <meta name="author" content="Nuno Braga" />
     <meta charset="UTF-8" />
+    <meta name="author" content="Nuno Braga" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Contador de Cliques - by Nuno Braga" />
+    <meta name="description" content="Gestor de Tarefas para freelancers (versão jQuery) - by Nuno Braga"/>
     <title>Gestor de Tarefas - jQuery</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
+
     <header class="topo">
       <h1>Gestor de Tarefas</h1>
       <p class="topo-subtitulo">Aqui pode organizar o seu trabalho.</p>
     </header>
 
-    <section class="barra-ferramentas" aria-label="Pesquisa e filtros">
-      <input
-        type="search"
-        id="pesquisa"
-        class="campo"
-        placeholder="Pesquisar tarefas…"
-        aria-label="Pesquisar tarefas"
-      />
+    <div class="layout">
 
-      <select
-        id="filtro-prioridade"
-        class="campo"
-        aria-label="Filtrar por prioridade"
-      >
-        <option value="todas">Todas as prioridades</option>
-        <option value="alta">Alta</option>
-        <option value="media">Média</option>
-        <option value="baixa">Baixa</option>
-      </select>
+      <aside class="projetos" aria-label="Projetos">
 
-      <button type="button" id="btn-nova" class="btn btn-primario">
-        + Nova tarefa
-      </button>
-    </section>
+        <div class="projetos-topo">
 
-    <main class="quadro" id="quadro">
-      <section class="coluna" data-estado="por-fazer">
-        <header class="coluna-topo">
-          <h2>Por Fazer</h2>
-          <span class="contador">2</span>
-        </header>
+          <h2>Projetos</h2>
 
-        <div class="coluna-lista">
-          <!-- Por fazer -->
+          <button
+            type="button"
+            id="btn-novo-projeto"
+            class="btn btn-icone"
+            aria-label="Novo projeto"
+          >
+            +
+          </button>
 
-          <article class="tarefa" data-id="1">
-            <header class="tarefa-topo">
-              <h3 class="tarefa-titulo">Enviar orçamento ao cliente</h3>
-              <span class="badge prioridade-alta">Alta</span>
-            </header>
-
-            <p class="tarefa-descricao">
-              Orçamento do site da padaria, com hosting incluído.
-            </p>
-
-            <footer class="tarefa-acoes">
-              <select class="tarefa-estado" aria-label="Estado da tarefa">
-                <option value="por-fazer" selected>Por Fazer</option>
-                <option value="em-progresso">Em Progresso</option>
-                <option value="concluida">Concluída</option>
-              </select>
-
-              <button type="button" class="btn btn-editar">Editar</button>
-              <button type="button" class="btn btn-apagar">Apagar</button>
-            </footer>
-          </article>
-
-          <article class="tarefa" data-id="2">
-            <header class="tarefa-topo">
-              <h3 class="tarefa-titulo">Atualizar portfólio</h3>
-              <span class="badge prioridade-baixa">Baixa</span>
-            </header>
-
-            <p class="tarefa-descricao">
-              Adicionar os dois projetos mais recentes.
-            </p>
-
-            <footer class="tarefa-acoes">
-              <select class="tarefa-estado" aria-label="Estado da tarefa">
-                <option value="por-fazer" selected>Por Fazer</option>
-                <option value="em-progresso">Em Progresso</option>
-                <option value="concluida">Concluída</option>
-              </select>
-
-              <button type="button" class="btn btn-editar">Editar</button>
-              <button type="button" class="btn btn-apagar">Apagar</button>
-            </footer>
-          </article>
         </div>
-      </section>
 
-      <section class="coluna" data-estado="em-progresso">
-        <header class="coluna-topo">
-          <h2>Em Progresso</h2>
-          <span class="contador">2</span>
-        </header>
+        <ul class="projetos-lista" id="projetos-lista">
 
-        <div class="coluna-lista">
-          <!-- Em progresso -->
+          <li>
+            <button
+              type="button"
+              class="projeto-item ativo"
+              data-projeto="todos"
+              aria-current="true"
+              style="--cor-projeto: var(--text-muted)"
+            >
+              <span class="projeto-cor"></span>
+              <span class="projeto-nome">Todos os projetos</span>
+              <span class="projeto-contador">5</span>
+            </button>
+          </li>
 
-          <article class="tarefa" data-id="3">
-            <header class="tarefa-topo">
-              <h3 class="tarefa-titulo">Design da página inicial</h3>
-              <span class="badge prioridade-media">Média</span>
-            </header>
+          <li>
+            <button
+              type="button"
+              class="projeto-item"
+              data-projeto="p1"
+              style="--cor-projeto: #8b5cf6"
+            >
+              <span class="projeto-cor"></span>
+              <span class="projeto-nome">Site da Padaria</span>
+              <span class="projeto-contador">2</span>
+            </button>
+          </li>
 
-            <p class="tarefa-descricao">
-              Maquete em Figma para aprovação do cliente.
+          <li>
+            <button
+              type="button"
+              class="projeto-item"
+              data-projeto="p2"
+              style="--cor-projeto: #ec4899"
+            >
+              <span class="projeto-cor"></span>
+              <span class="projeto-nome">Loja Online Moda</span>
+              <span class="projeto-contador">2</span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              class="projeto-item"
+              data-projeto="p3"
+              style="--cor-projeto: #0ea5e9"
+            >
+              <span class="projeto-cor"></span>
+              <span class="projeto-nome">Portfólio pessoal</span>
+              <span class="projeto-contador">1</span>
+            </button>
+          </li>
+
+        </ul>
+
+      </aside>
+
+      <div class="conteudo">
+
+        <div class="projeto-atual">
+
+          <div>
+            <h2 id="projeto-atual-nome">Todas as tarefas</h2>
+            <p class="projeto-cliente" id="projeto-atual-cliente">
+              5 tarefas em 3 projetos
             </p>
+          </div>
 
-            <footer class="tarefa-acoes">
-              <select class="tarefa-estado" aria-label="Estado da tarefa">
-                <option value="por-fazer">Por Fazer</option>
-                <option value="em-progresso" selected>Em Progresso</option>
-                <option value="concluida">Concluída</option>
-              </select>
+          <button
+            type="button"
+            id="btn-editar-projeto"
+            class="btn"
+            hidden
+          >
+            Editar projeto
+          </button>
 
-              <button type="button" class="btn btn-editar">Editar</button>
-              <button type="button" class="btn btn-apagar">Apagar</button>
-            </footer>
-          </article>
-
-          <article class="tarefa" data-id="4">
-            <header class="tarefa-topo">
-              <h3 class="tarefa-titulo">Emitir fatura de setembro</h3>
-              <span class="badge prioridade-alta">Alta</span>
-            </header>
-
-            <p class="tarefa-descricao">
-              Fatura no Portal das Finanças para o cliente da loja online.
-            </p>
-
-            <footer class="tarefa-acoes">
-              <select class="tarefa-estado" aria-label="Estado da tarefa">
-                <option value="por-fazer">Por Fazer</option>
-                <option value="em-progresso" selected>Em Progresso</option>
-                <option value="concluida">Concluída</option>
-              </select>
-
-              <button type="button" class="btn btn-editar">Editar</button>
-              <button type="button" class="btn btn-apagar">Apagar</button>
-            </footer>
-          </article>
         </div>
-      </section>
 
-      <section class="coluna" data-estado="concluida">
-        <header class="coluna-topo">
-          <h2>Concluída</h2>
-          <span class="contador">1</span>
-        </header>
+        <section class="barra-ferramentas" aria-label="Pesquisa e filtros">
 
-        <div class="coluna-lista">
-          <!-- Concluídas -->
+          <input
+            type="search"
+            id="pesquisa"
+            class="campo"
+            placeholder="Pesquisar tarefas…"
+            aria-label="Pesquisar tarefas"
+          />
 
-          <article class="tarefa" data-id="5">
-            <header class="tarefa-topo">
-              <h3 class="tarefa-titulo">Reunião de kickoff</h3>
-              <span class="badge prioridade-media">Média</span>
+          <select
+            id="filtro-prioridade"
+            class="campo"
+            aria-label="Filtrar por prioridade"
+          >
+            <option value="todas">Todas as prioridades</option>
+            <option value="alta">Alta</option>
+            <option value="media">Média</option>
+            <option value="baixa">Baixa</option>
+          </select>
+
+          <button type="button" id="btn-nova" class="btn btn-primario">
+            + Nova tarefa
+          </button>
+
+        </section>
+
+        <main class="quadro" id="quadro">
+
+          <section class="coluna" data-estado="por-fazer">
+
+            <header class="coluna-topo">
+              <h2>Por Fazer</h2>
+              <span class="contador">2</span>
             </header>
 
-            <p class="tarefa-descricao">
-              Definir prazos e entregas com o novo cliente.
-            </p>
+            <div class="coluna-lista">
+              <!-- Por fazer -->
 
-            <footer class="tarefa-acoes">
-              <select class="tarefa-estado" aria-label="Estado da tarefa">
-                <option value="por-fazer">Por Fazer</option>
-                <option value="em-progresso">Em Progresso</option>
-                <option value="concluida" selected>Concluída</option>
-              </select>
+              <article class="tarefa" data-id="1">
 
-              <button type="button" class="btn btn-editar">Editar</button>
-              <button type="button" class="btn btn-apagar">Apagar</button>
-            </footer>
-          </article>
-        </div>
-      </section>
-    </main>
+                <header class="tarefa-topo">
+                  <h3 class="tarefa-titulo">Enviar orçamento ao cliente</h3>
+                  <span class="badge prioridade-alta">Alta</span>
+                </header>
+
+                <span class="tarefa-projeto" style="--cor-projeto: #8b5cf6">Site da Padaria</span>
+
+                <p class="tarefa-descricao">
+                  Orçamento do site da padaria, com hosting incluído.
+                </p>
+
+                <footer class="tarefa-acoes">
+
+                  <select class="tarefa-estado" aria-label="Estado da tarefa">
+                    <option value="por-fazer" selected>Por Fazer</option>
+                    <option value="em-progresso">Em Progresso</option>
+                    <option value="concluida">Concluída</option>
+                  </select>
+
+                  <button type="button" class="btn btn-editar">Editar</button>
+                  <button type="button" class="btn btn-apagar">Apagar</button>
+
+                </footer>
+
+              </article>
+
+              <article class="tarefa" data-id="2">
+
+                <header class="tarefa-topo">
+                  <h3 class="tarefa-titulo">Atualizar portfólio</h3>
+                  <span class="badge prioridade-baixa">Baixa</span>
+                </header>
+
+                <span class="tarefa-projeto" style="--cor-projeto: #0ea5e9">Portfólio pessoal</span>
+
+                <p class="tarefa-descricao">
+                  Adicionar os dois projetos mais recentes.
+                </p>
+
+                <footer class="tarefa-acoes">
+
+                  <select class="tarefa-estado" aria-label="Estado da tarefa">
+                    <option value="por-fazer" selected>Por Fazer</option>
+                    <option value="em-progresso">Em Progresso</option>
+                    <option value="concluida">Concluída</option>
+                  </select>
+
+                  <button type="button" class="btn btn-editar">Editar</button>
+                  <button type="button" class="btn btn-apagar">Apagar</button>
+
+                </footer>
+
+              </article>
+
+            </div>
+
+          </section>
+
+          <section class="coluna" data-estado="em-progresso">
+
+            <header class="coluna-topo">
+              <h2>Em Progresso</h2>
+              <span class="contador">2</span>
+            </header>
+
+            <div class="coluna-lista">
+              <!-- Em progresso -->
+
+              <article class="tarefa" data-id="3">
+
+                <header class="tarefa-topo">
+                  <h3 class="tarefa-titulo">Design da página inicial</h3>
+                  <span class="badge prioridade-media">Média</span>
+                </header>
+
+                <span class="tarefa-projeto" style="--cor-projeto: #8b5cf6">Site da Padaria</span>
+
+                <p class="tarefa-descricao">
+                  Maquete em Figma para aprovação do cliente.
+                </p>
+
+                <footer class="tarefa-acoes">
+
+                  <select class="tarefa-estado" aria-label="Estado da tarefa">
+                    <option value="por-fazer">Por Fazer</option>
+                    <option value="em-progresso" selected>Em Progresso</option>
+                    <option value="concluida">Concluída</option>
+                  </select>
+
+                  <button type="button" class="btn btn-editar">Editar</button>
+                  <button type="button" class="btn btn-apagar">Apagar</button>
+
+                </footer>
+
+              </article>
+
+              <article class="tarefa" data-id="4">
+
+                <header class="tarefa-topo">
+                  <h3 class="tarefa-titulo">Emitir fatura de setembro</h3>
+                  <span class="badge prioridade-alta">Alta</span>
+                </header>
+
+                <span class="tarefa-projeto" style="--cor-projeto: #ec4899">Loja Online Moda</span>
+
+                <p class="tarefa-descricao">
+                  Fatura no Portal das Finanças para o cliente da loja online.
+                </p>
+
+                <footer class="tarefa-acoes">
+
+                  <select class="tarefa-estado" aria-label="Estado da tarefa">
+                    <option value="por-fazer">Por Fazer</option>
+                    <option value="em-progresso" selected>Em Progresso</option>
+                    <option value="concluida">Concluída</option>
+                  </select>
+
+                  <button type="button" class="btn btn-editar">Editar</button>
+                  <button type="button" class="btn btn-apagar">Apagar</button>
+
+                </footer>
+
+              </article>
+
+            </div>
+
+          </section>
+
+          <section class="coluna" data-estado="concluida">
+
+            <header class="coluna-topo">
+              <h2>Concluídas</h2>
+              <span class="contador">1</span>
+            </header>
+
+            <div class="coluna-lista">
+              <!-- Concluídas -->
+
+              <article class="tarefa" data-id="5">
+
+                <header class="tarefa-topo">
+                  <h3 class="tarefa-titulo">Reunião de kickoff</h3>
+                  <span class="badge prioridade-media">Média</span>
+                </header>
+
+                <span class="tarefa-projeto" style="--cor-projeto: #ec4899">Loja Online Moda</span>
+
+                <p class="tarefa-descricao">
+                  Definir prazos e entregas com o novo cliente.
+                </p>
+
+                <footer class="tarefa-acoes">
+
+                  <select class="tarefa-estado" aria-label="Estado da tarefa">
+                    <option value="por-fazer">Por Fazer</option>
+                    <option value="em-progresso">Em Progresso</option>
+                    <option value="concluida" selected>Concluída</option>
+                  </select>
+
+                  <button type="button" class="btn btn-editar">Editar</button>
+                  <button type="button" class="btn btn-apagar">Apagar</button>
+
+                </footer>
+
+              </article>
+
+            </div>
+
+          </section>
+
+        </main>
+
+      </div>
+
+    </div>
 
     <dialog id="modal-tarefa" class="modal" aria-labelledby="modal-titulo">
+
       <form id="form-tarefa" class="form" method="dialog" novalidate>
+
         <h2 id="modal-titulo">Nova tarefa</h2>
 
         <input type="hidden" id="tarefa-id" />
 
-        <label for="tarefa-titulo-input"
-          >Título <span aria-hidden="true">*</span></label
-        >
+        <label for="tarefa-titulo-input">
+          Título <span aria-hidden="true">*</span>
+        </label>
+
         <input
           type="text"
           id="tarefa-titulo-input"
@@ -201,9 +354,11 @@
           required
           maxlength="80"
         />
+
         <p class="erro" id="erro-titulo" hidden>O título é obrigatório.</p>
 
         <label for="tarefa-descricao-input">Descrição</label>
+
         <textarea
           id="tarefa-descricao-input"
           class="campo"
@@ -211,8 +366,18 @@
           maxlength="500"
         ></textarea>
 
+        <label for="tarefa-projeto-input">Projeto</label>
+
+        <select id="tarefa-projeto-input" class="campo">
+          <option value="p1">Site da Padaria</option>
+          <option value="p2">Loja Online Moda</option>
+          <option value="p3">Portfólio pessoal</option>
+        </select>
+
         <div class="form-linha">
+
           <div>
+
             <label for="tarefa-prioridade-input">Prioridade</label>
 
             <select id="tarefa-prioridade-input" class="campo">
@@ -220,9 +385,11 @@
               <option value="media" selected>Média</option>
               <option value="alta">Alta</option>
             </select>
+
           </div>
 
           <div>
+
             <label for="tarefa-estado-input">Estado</label>
 
             <select id="tarefa-estado-input" class="campo">
@@ -230,17 +397,149 @@
               <option value="em-progresso">Em Progresso</option>
               <option value="concluida">Concluída</option>
             </select>
+
           </div>
+
         </div>
 
         <div class="form-acoes">
+
           <button type="button" id="btn-cancelar" class="btn">Cancelar</button>
           <button type="submit" class="btn btn-primario">Guardar</button>
+
         </div>
+
       </form>
+
+    </dialog>
+
+    <dialog
+      id="modal-projeto"
+      class="modal"
+      aria-labelledby="modal-projeto-titulo"
+    >
+      <form id="form-projeto" class="form" method="dialog" novalidate>
+        <h2 id="modal-projeto-titulo">Novo projeto</h2>
+
+        <input type="hidden" id="projeto-id" />
+
+        <label for="projeto-nome-input">
+          Nome <span aria-hidden="true">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="projeto-nome-input"
+          class="campo"
+          required
+          maxlength="60"
+        />
+
+        <p class="erro" id="erro-projeto-nome" hidden>
+          O nome do projeto é obrigatório.
+        </p>
+
+        <label for="projeto-cliente-input">Cliente</label>
+        <input
+          type="text"
+          id="projeto-cliente-input"
+          class="campo"
+          maxlength="60"
+        />
+
+        <fieldset class="cores">
+          <legend>Cor</legend>
+
+          <label class="cor-opcao">
+            <input
+              type="radio"
+              name="projeto-cor"
+              value="#8b5cf6"
+              aria-label="Violeta"
+              checked
+            />
+            <span style="--cor-projeto: #8b5cf6"></span>
+          </label>
+
+          <label class="cor-opcao">
+            <input
+              type="radio"
+              name="projeto-cor"
+              value="#ec4899"
+              aria-label="Rosa"
+            />
+            <span style="--cor-projeto: #ec4899"></span>
+          </label>
+
+          <label class="cor-opcao">
+            <input
+              type="radio"
+              name="projeto-cor"
+              value="#0ea5e9"
+              aria-label="Azul"
+            />
+            <span style="--cor-projeto: #0ea5e9"></span>
+          </label>
+
+          <label class="cor-opcao">
+            <input
+              type="radio"
+              name="projeto-cor"
+              value="#14b8a6"
+              aria-label="Turquesa"
+            />
+            <span style="--cor-projeto: #14b8a6"></span>
+          </label>
+
+          <label class="cor-opcao">
+            <input
+              type="radio"
+              name="projeto-cor"
+              value="#f97316"
+              aria-label="Laranja"
+            />
+            <span style="--cor-projeto: #f97316"></span>
+          </label>
+
+          <label class="cor-opcao">
+            <input
+              type="radio"
+              name="projeto-cor"
+              value="#84cc16"
+              aria-label="Lima"
+            />
+            <span style="--cor-projeto: #84cc16"></span>
+
+          </label>
+
+        </fieldset>
+
+        <div class="form-acoes">
+
+          <button
+            type="button"
+            id="btn-apagar-projeto"
+            class="btn btn-apagar"
+            hidden
+          >
+            Apagar projeto
+          </button>
+
+          <button type="button" id="btn-cancelar-projeto" class="btn">
+            Cancelar
+          </button>
+
+          <button type="submit" class="btn btn-primario">Guardar</button>
+
+        </div>
+
+      </form>
+
     </dialog>
 
     <script src="lib/jquery-3.7.1.min.js"></script>
     <script src="script.js"></script>
+
   </body>
+
 </html>
