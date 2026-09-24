@@ -28,6 +28,7 @@ ProjetoFinal_Tarefas/
 | `prioridade` | string | `baixa` · `media` · `alta`                 |
 | `estado`     | string | `por-fazer` · `em-progresso` · `concluida` |
 | `criadaEm`   | string | data ISO (`new Date().toISOString()`)      |
+| `projetoId`  | string | `id` de um projeto existente               |
 
 Chave no localStorage: `tarefas`
 
@@ -43,8 +44,6 @@ Chave no localStorage: `tarefas`
 
 Cada tarefa tem um campo `projetoId` que aponta para o `id` do projeto.
 Chave no localStorage: `projetos`
-
-| `projetoId` | string | `id` de um projeto existente |
 
 ## Limitações do jQuery
 
