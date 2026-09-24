@@ -31,6 +31,21 @@ ProjetoFinal_Tarefas/
 
 Chave no localStorage: `tarefas`
 
+## Modelo de projeto
+
+| Campo      | Tipo   | Valores                          |
+| ---------- | ------ | -------------------------------- |
+| `id`       | string | `crypto.randomUUID()`            |
+| `nome`     | string | obrigatório                      |
+| `cliente`  | string | opcional                         |
+| `cor`      | string | hex escolhido de uma paleta fixa |
+| `criadoEm` | string | data ISO                         |
+
+Cada tarefa tem um campo `projetoId` que aponta para o `id` do projeto.
+Chave no localStorage: `projetos`
+
+| `projetoId` | string | `id` de um projeto existente |
+
 ## Limitações do jQuery
 
 O elemento `<dialog>` nativo fornece o fundo, a tecla Esc para fechar e o control de focagem automaticamente. Fica oculto até ser aberto com `$('#modal-tarefa')[0].showModal()`. O `[0]` obtém o elemento DOM puro, uma vez que `showModal()` não é um método do jQuery.
