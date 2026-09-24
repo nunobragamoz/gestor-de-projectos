@@ -1,0 +1,53 @@
+export const projetosMock = [
+  { id: 'p1', nome: 'Site da Padaria', cliente: 'Padaria Sol', cor: '#8b5cf6', criadoEm: '2026-09-01T09:00:00.000Z' },
+  { id: 'p2', nome: 'Loja Online Moda', cliente: 'Moda Lx', cor: '#ec4899', criadoEm: '2026-09-05T09:00:00.000Z' },
+  { id: 'p3', nome: 'Portfólio pessoal', cliente: '', cor: '#0ea5e9', criadoEm: '2026-09-10T09:00:00.000Z' },
+];
+
+export const tarefasMock = [
+  {
+    id: '1',
+    titulo: 'Enviar orçamento ao cliente',
+    descricao: 'Orçamento do site da padaria, com hosting incluído.',
+    prioridade: 'alta',
+    estado: 'por-fazer',
+    projetoId: 'p1',
+    criadaEm: '2026-09-12T10:00:00.000Z',
+  },
+  {
+    id: '2',
+    titulo: 'Atualizar portfólio',
+    descricao: 'Adicionar os dois projetos mais recentes.',
+    prioridade: 'baixa',
+    estado: 'por-fazer',
+    projetoId: 'p3',
+    criadaEm: '2026-09-13T10:00:00.000Z',
+  },
+  {
+    id: '3',
+    titulo: 'Design da página inicial',
+    descricao: 'Maquete em Figma para aprovação do cliente.',
+    prioridade: 'media',
+    estado: 'em-progresso',
+    projetoId: 'p1',
+    criadaEm: '2026-09-14T10:00:00.000Z',
+  },
+  {
+    id: '4',
+    titulo: 'Emitir fatura de setembro',
+    descricao: 'Fatura no Portal das Finanças para o cliente da loja online.',
+    prioridade: 'alta',
+    estado: 'em-progresso',
+    projetoId: 'p2',
+    criadaEm: '2026-09-15T10:00:00.000Z',
+  },
+  {
+    id: '5',
+    titulo: 'Reunião de kickoff',
+    descricao: 'Definir prazos e entregas com o novo cliente.',
+    prioridade: 'media',
+    estado: 'concluida',
+    projetoId: 'p2',
+    criadaEm: '2026-09-16T10:00:00.000Z',
+  },
+];
