@@ -6,7 +6,7 @@ export const ESTADOS = [
 
 export const PRIORIDADES = {
   baixa: 'Baixa',
-  media: 'Media',
+  media: 'Média',
   alta: 'Alta'
 };
 
