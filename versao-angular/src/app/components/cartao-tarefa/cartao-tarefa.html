@@ -1,0 +1,31 @@
+<article class="tarefa" [attr.data-id]="tarefa().id">
+  <header class="tarefa-topo">
+    <h3 class="tarefa-titulo">{{ tarefa().titulo }}</h3>
+    <span class="badge prioridade-{{ tarefa().prioridade }}">
+      {{ prioridades[tarefa().prioridade] }}
+    </span>
+  </header>
+
+  @if (projeto(); as projeto) {
+    <span class="tarefa-projeto" [style.--cor-projeto]="projeto.cor">
+      {{ projeto.nome }}
+    </span>
+  }
+
+  @if (tarefa().descricao) {
+    <p class="tarefa-descricao">{{ tarefa().descricao }}</p>
+  }
+
+  <footer class="tarefa-acoes">
+    <select class="tarefa-estado" aria-label="Estado da tarefa">
+      @for (estado of estados; track estado.valor) {
+        <option [value]="estado.valor" [selected]="estado.valor === tarefa().estado">
+          {{ estado.rotulo }}
+        </option>
+      }
+    </select>
+
+    <button type="button" class="btn btn-editar">Editar</button>
+    <button type="button" class="btn btn-apagar">Apagar</button>
+  </footer>
+</article>

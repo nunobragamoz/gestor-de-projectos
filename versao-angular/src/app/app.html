@@ -1,0 +1,12 @@
+<main class="quadro">
+  <section class="coluna" data-estado="por-fazer">
+    <div class="coluna-lista">
+      @for (tarefa of tarefas; track tarefa.id) {
+        <app-cartao-tarefa
+          [tarefa]="tarefa"
+          [projeto]="projetoDe(tarefa.projetoId)"
+        />
+      }
+    </div>
+  </section>
+</main>
