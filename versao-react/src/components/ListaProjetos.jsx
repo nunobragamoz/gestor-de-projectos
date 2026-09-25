@@ -16,7 +16,7 @@ function ItemProjeto({ id, nome, cor, contador, ativo }) {
   );
 }
 
-function ListaProjetos({ projetos, tarefas, projetoAtualId }) {
+function ListaProjetos({ projetos, tarefas, projetoSelecionadoId }) {
   return (
     <aside className="projetos" aria-label="Projetos">
 
@@ -42,7 +42,7 @@ function ListaProjetos({ projetos, tarefas, projetoAtualId }) {
           nome="Todos os projetos"
           cor="var(--text-muted)"
           contador={tarefas.length}
-          ativo={projetoAtualId === "todos"}
+          ativo={projetoSelecionadoId === "todos"}
         />
 
         {projetos.map((projeto) => (
@@ -54,7 +54,7 @@ function ListaProjetos({ projetos, tarefas, projetoAtualId }) {
             contador={
               tarefas.filter((tarefa) => tarefa.projetoId === projeto.id).length
             }
-            ativo={projetoAtualId === projeto.id}
+            ativo={projetoSelecionadoId === projeto.id}
           />
         ))}
 
