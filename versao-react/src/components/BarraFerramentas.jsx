@@ -1,6 +1,12 @@
 import { PRIORIDADES } from "../data/opcoes";
 
-function BarraFerramentas({ onNovaTarefa }) {
+function BarraFerramentas({
+  pesquisa,
+  prioridade,
+  onPesquisa,
+  onPrioridade,
+  onNovaTarefa,
+}) {
   return (
     <section className="barra-ferramentas" aria-label="Pesquisa e filtros">
       <input
@@ -9,12 +15,16 @@ function BarraFerramentas({ onNovaTarefa }) {
         className="campo"
         placeholder="Pesquisar tarefas…"
         aria-label="Pesquisar tarefas"
+        value={pesquisa}
+        onChange={(evento) => onPesquisa(evento.target.value)}
       />
 
       <select
         id="filtro-prioridade"
         className="campo"
         aria-label="Filtrar por prioridade"
+        value={prioridade}
+        onChange={(evento) => onPrioridade(evento.target.value)}
       >
         <option value="todas">Todas as prioridades</option>
         {["alta", "media", "baixa"].map((valor) => (

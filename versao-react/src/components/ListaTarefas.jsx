@@ -5,6 +5,7 @@ function ListaTarefas({
   titulo,
   tarefas,
   projetos,
+  mensagemVazia,
   onEditar,
   onApagar,
   onMudarEstado,
@@ -19,7 +20,7 @@ function ListaTarefas({
 
       <div className="coluna-lista">
 
-        {tarefas.length === 0 && <p className="coluna-vazia">Sem tarefas</p>}
+        {tarefas.length === 0 && <p className="coluna-vazia">{mensagemVazia}</p>}
 
         {tarefas.map((tarefa) => (
           <Tarefa

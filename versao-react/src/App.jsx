@@ -7,6 +7,7 @@ import ListaProjetos from "./components/ListaProjetos";
 import ProjetoAtual from "./components/ProjetoAtual";
 import Quadro from "./components/Quadro";
 import { carregarProjetos, carregarTarefas, gravarLista } from "./data/armazenamento";
+import { normalizar } from "./utils/normalizar";
 
 function App() {
   // Inicialização lazy: a função só corre na primeira renderização, por isso
@@ -14,6 +15,8 @@ function App() {
   const [projetos, setProjetos] = useState(carregarProjetos);
   const [tarefas, setTarefas] = useState(carregarTarefas);
   const [projetoSelecionadoId, setProjetoSelecionadoId] = useState("todos");
+  const [pesquisa, setPesquisa] = useState("");
+  const [filtroPrioridade, setFiltroPrioridade] = useState("todas");
 
   const [formularioTarefaAberto, setFormularioTarefaAberto] = useState(false);
   const [tarefaEmEdicao, setTarefaEmEdicao] = useState(null);
@@ -34,9 +37,19 @@ function App() {
     (projeto) => projeto.id === projetoSelecionadoId
   );
 
-  const tarefasVisiveis = projetoSelecionado
-    ? tarefas.filter((tarefa) => tarefa.projetoId === projetoSelecionado.id)
-    : tarefas;
+  // A lista visível é calculada em cada render a partir do estado (projeto,
+  // pesquisa e prioridade), em vez de guardar um segundo array que podia
+  // ficar desatualizado.
+  const termo = normalizar(pesquisa.trim());
+  const filtroAtivo = termo !== "" || filtroPrioridade !== "todas";
+
+  const tarefasVisiveis = tarefas.filter((tarefa) => {
+    const doProjeto = !projetoSelecionado || tarefa.projetoId === projetoSelecionado.id;
+    const daPrioridade = filtroPrioridade === "todas" || tarefa.prioridade === filtroPrioridade;
+    const encontrada = normalizar(`${tarefa.titulo} ${tarefa.descricao}`).includes(termo);
+
+    return doProjeto && daPrioridade && encontrada;
+  });
 
   // Em "Todos os projetos" o formulário pré-seleciona o primeiro projeto.
   const projetoPadraoId = projetoSelecionado?.id ?? projetos[0]?.id ?? "";
@@ -169,11 +182,18 @@ function App() {
             onEditar={() => abrirFormularioProjeto(projetoSelecionado)}
           />
 
-          <BarraFerramentas onNovaTarefa={() => abrirFormularioTarefa(null)} />
+          <BarraFerramentas
+            pesquisa={pesquisa}
+            prioridade={filtroPrioridade}
+            onPesquisa={setPesquisa}
+            onPrioridade={setFiltroPrioridade}
+            onNovaTarefa={() => abrirFormularioTarefa(null)}
+          />
 
           <Quadro
             tarefas={tarefasVisiveis}
             projetos={projetos}
+            mensagemVazia={filtroAtivo ? "Sem resultados" : "Sem tarefas"}
             onEditar={abrirFormularioTarefa}
             onApagar={apagarTarefa}
             onMudarEstado={mudarEstado}

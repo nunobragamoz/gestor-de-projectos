@@ -1,7 +1,14 @@
 import { ESTADOS } from "../data/opcoes";
 import ListaTarefas from "./ListaTarefas";
 
-function Quadro({ tarefas, projetos, onEditar, onApagar, onMudarEstado }) {
+function Quadro({
+  tarefas,
+  projetos,
+  mensagemVazia,
+  onEditar,
+  onApagar,
+  onMudarEstado,
+}) {
   return (
     <main className="quadro" id="quadro">
 
@@ -12,6 +19,7 @@ function Quadro({ tarefas, projetos, onEditar, onApagar, onMudarEstado }) {
           titulo={estado.titulo}
           tarefas={tarefas.filter((tarefa) => tarefa.estado === estado.valor)}
           projetos={projetos}
+          mensagemVazia={mensagemVazia}
           onEditar={onEditar}
           onApagar={onApagar}
           onMudarEstado={onMudarEstado}
