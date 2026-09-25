@@ -13,6 +13,7 @@ import { ListaTarefas } from '../lista-tarefas/lista-tarefas';
 export class Quadro {
   tarefas = input.required<Tarefa[]>();
   projetos = input.required<Projeto[]>();
+  mensagemVazia = input.required<string>();
 
   readonly editar = output<Tarefa>();
 

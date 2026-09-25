@@ -14,6 +14,7 @@ export class ListaTarefas {
   titulo = input.required<string>();
   tarefas = input.required<Tarefa[]>();
   projetos = input.required<Projeto[]>();
+  mensagemVazia = input.required<string>();
 
   readonly editar = output<Tarefa>();
 

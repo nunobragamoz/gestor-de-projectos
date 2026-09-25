@@ -1,21 +1,30 @@
 <section class="barra-ferramentas" aria-label="Pesquisa e filtros">
 
   <input
+    #campoPesquisa
     type="search"
     id="pesquisa"
     class="campo"
     placeholder="Pesquisar tarefas…"
     aria-label="Pesquisar tarefas"
+    [value]="pesquisa()"
+    (input)="pesquisa.set(campoPesquisa.value)"
   />
 
   <select
     id="filtro-prioridade"
     class="campo"
     aria-label="Filtrar por prioridade"
+    #campoPrioridade
+    (change)="prioridade.set($any(campoPrioridade.value))"
   >
-    <option value="todas">Todas as prioridades</option>
+    <option value="todas" [selected]="prioridade() === 'todas'">
+      Todas as prioridades
+    </option>
     @for (valor of ordem; track valor) {
-      <option [value]="valor">{{ prioridades[valor] }}</option>
+      <option [value]="valor" [selected]="prioridade() === valor">
+        {{ prioridades[valor] }}
+      </option>
     }
   </select>
 

@@ -8,7 +8,7 @@
   <div class="coluna-lista">
 
     @if (tarefas().length === 0) {
-      <p class="coluna-vazia">Sem tarefas</p>
+      <p class="coluna-vazia">{{ mensagemVazia() }}</p>
     }
 
     @for (tarefa of tarefas(); track tarefa.id) {

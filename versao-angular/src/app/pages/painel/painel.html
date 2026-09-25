@@ -15,11 +15,16 @@
       (editar)="editarProjeto()"
     />
 
-    <app-barra-ferramentas (novaTarefa)="novaTarefa()" />
+    <app-barra-ferramentas
+      [(pesquisa)]="pesquisa"
+      [(prioridade)]="prioridade"
+      (novaTarefa)="novaTarefa()"
+    />
 
     <app-quadro
       [tarefas]="tarefasVisiveis()"
       [projetos]="projetos()"
+      [mensagemVazia]="filtroAtivo() ? 'Sem resultados' : 'Sem tarefas'"
       (editar)="editarTarefa($event)"
     />
 

@@ -6,6 +6,7 @@
       [titulo]="estado.titulo"
       [tarefas]="tarefasDe(estado.valor)"
       [projetos]="projetos()"
+      [mensagemVazia]="mensagemVazia()"
       (editar)="editar.emit($event)"
     />
   }
