@@ -162,11 +162,23 @@ $(function () {
   }
 
   function renderProjetoAtual() {
-    $('#projeto-atual-nome').text('Todas as tarefas');
-    $('#projeto-atual-cliente').text(
-      contar(tarefas.length, 'tarefa', 'tarefas') + ' em ' +
-      contar(projetos.length, 'projeto', 'projetos')
-    );
+    const projeto = procurarProjeto(projetoSelecionadoId);
+
+    if (!projeto) {
+      $('#projeto-atual-nome').text('Todas as tarefas');
+      $('#projeto-atual-cliente').text(
+        contar(tarefas.length, 'tarefa', 'tarefas') + ' em ' +
+        contar(projetos.length, 'projeto', 'projetos')
+      );
+      $('#btn-editar-projeto').prop('hidden', true);
+      return;
+    }
+
+    const total = contar(tarefasDoProjeto(projeto.id).length, 'tarefa', 'tarefas');
+
+    $('#projeto-atual-nome').text(projeto.nome);
+    $('#projeto-atual-cliente').text(projeto.cliente ? projeto.cliente + ' · ' + total : total);
+    $('#btn-editar-projeto').prop('hidden', false);
   }
 
   function criarCartao(tarefa) {
@@ -246,11 +258,127 @@ $(function () {
   }
 
   function render() {
+    // Se o projeto selecionado deixou de existir, volta a "Todos os projetos".
+    if (projetoSelecionadoId !== 'todos' && !procurarProjeto(projetoSelecionadoId)) {
+      projetoSelecionadoId = 'todos';
+    }
+
     renderProjetos();
     renderProjetoAtual();
     renderTarefas();
     renderOpcoesProjeto();
   }
+
+  /* Projetos */
+
+  // Event delegation: os itens são recriados em cada render, por isso o
+  // evento fica na lista, que existe sempre.
+  $('#projetos-lista').on('click', '.projeto-item', function () {
+    projetoSelecionadoId = $(this).attr('data-projeto');
+    render();
+  });
+
+  function mostrarErroNome(mostrar) {
+    $('#erro-projeto-nome').prop('hidden', !mostrar);
+    $('#projeto-nome-input').attr('aria-invalid', mostrar ? 'true' : null);
+  }
+
+  function abrirFormularioProjeto(projeto) {
+    const cor = projeto ? projeto.cor : $('input[name="projeto-cor"]').first().val();
+
+    $('#modal-projeto-titulo').text(projeto ? 'Editar projeto' : 'Novo projeto');
+    $('#projeto-id').val(projeto ? projeto.id : '');
+    $('#projeto-nome-input').val(projeto ? projeto.nome : '');
+    $('#projeto-cliente-input').val(projeto ? projeto.cliente : '');
+    $('input[name="projeto-cor"]').filter(function () {
+      return this.value === cor;
+    }).prop('checked', true);
+    $('#btn-apagar-projeto').prop('hidden', !projeto);
+    mostrarErroNome(false);
+
+    // showModal() é um método do elemento DOM, não do jQuery: [0] obtém-no.
+    $('#modal-projeto')[0].showModal();
+  }
+
+  function fecharFormularioProjeto() {
+    $('#modal-projeto')[0].close();
+  }
+
+  $('#btn-novo-projeto').on('click', function () {
+    abrirFormularioProjeto(null);
+  });
+
+  $('#btn-editar-projeto').on('click', function () {
+    abrirFormularioProjeto(procurarProjeto(projetoSelecionadoId));
+  });
+
+  $('#btn-cancelar-projeto').on('click', fecharFormularioProjeto);
+
+  $('#projeto-nome-input').on('input', function () {
+    mostrarErroNome(false);
+  });
+
+  $('#form-projeto').on('submit', function (evento) {
+    evento.preventDefault();
+
+    const nome = $('#projeto-nome-input').val().trim();
+
+    if (!nome) {
+      mostrarErroNome(true);
+      $('#projeto-nome-input').trigger('focus');
+      return;
+    }
+
+    const id = $('#projeto-id').val();
+    const dados = {
+      nome: nome,
+      cliente: $('#projeto-cliente-input').val().trim(),
+      cor: $('input[name="projeto-cor"]:checked').val(),
+    };
+
+    if (id) {
+      Object.assign(procurarProjeto(id), dados);
+    } else {
+      const novo = Object.assign(
+        { id: crypto.randomUUID(), criadoEm: new Date().toISOString() },
+        dados
+      );
+      projetos.push(novo);
+      projetoSelecionadoId = novo.id;
+    }
+
+    gravar();
+    fecharFormularioProjeto();
+    render();
+  });
+
+  $('#btn-apagar-projeto').on('click', function () {
+    const projeto = procurarProjeto($('#projeto-id').val());
+    const total = tarefasDoProjeto(projeto.id).length;
+
+    let mensagem = 'Apagar o projeto "' + projeto.nome + '"?';
+
+    if (total === 1) {
+      mensagem += '\n\nA tarefa deste projeto também vai ser apagada.';
+    } else if (total > 1) {
+      mensagem += '\n\nAs ' + total + ' tarefas deste projeto também vão ser apagadas.';
+    }
+
+    if (!confirm(mensagem)) {
+      return;
+    }
+
+    projetos = projetos.filter(function (item) {
+      return item.id !== projeto.id;
+    });
+    tarefas = tarefas.filter(function (tarefa) {
+      return tarefa.projetoId !== projeto.id;
+    });
+
+    gravar();
+    fecharFormularioProjeto();
+    render();
+  });
 
   /* Arranque */
 
