@@ -1,6 +1,6 @@
 import { PRIORIDADES } from "../data/opcoes";
 
-function BarraFerramentas() {
+function BarraFerramentas({ onNovaTarefa }) {
   return (
     <section className="barra-ferramentas" aria-label="Pesquisa e filtros">
       <input
@@ -24,7 +24,12 @@ function BarraFerramentas() {
         ))}
       </select>
 
-      <button type="button" id="btn-nova" className="btn btn-primario">
+      <button
+        type="button"
+        id="btn-nova"
+        className="btn btn-primario"
+        onClick={onNovaTarefa}
+      >
         + Nova tarefa
       </button>
     </section>

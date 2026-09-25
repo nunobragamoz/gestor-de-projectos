@@ -1,10 +1,10 @@
-export const projetosMock = [
+export const projetosExemplo = [
   { id: 'p1', nome: 'Site da Padaria', cliente: 'Padaria Sol', cor: '#8b5cf6', criadoEm: '2026-09-01T09:00:00.000Z' },
   { id: 'p2', nome: 'Loja Online Moda', cliente: 'Moda Lx', cor: '#ec4899', criadoEm: '2026-09-05T09:00:00.000Z' },
   { id: 'p3', nome: 'Portfólio pessoal', cliente: '', cor: '#0ea5e9', criadoEm: '2026-09-10T09:00:00.000Z' },
 ];
 
-export const tarefasMock = [
+export const tarefasExemplo = [
   {
     id: '1',
     titulo: 'Enviar orçamento ao cliente',

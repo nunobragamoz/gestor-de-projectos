@@ -11,6 +11,8 @@ function ListaTarefas({ estado, titulo, tarefas, projetos }) {
 
       <div className="coluna-lista">
 
+        {tarefas.length === 0 && <p className="coluna-vazia">Sem tarefas</p>}
+
         {tarefas.map((tarefa) => (
           <Tarefa
             key={tarefa.id}
