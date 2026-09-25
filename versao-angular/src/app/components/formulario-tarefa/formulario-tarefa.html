@@ -14,9 +14,11 @@
     (ngSubmit)="guardar($event)"
   >
 
-    <h2 id="modal-titulo">Nova tarefa</h2>
+    <h2 id="modal-titulo">
+      {{ emEdicao() ? 'Editar tarefa' : 'Nova tarefa' }}
+    </h2>
 
-    <input type="hidden" id="tarefa-id" />
+    <input type="hidden" id="tarefa-id" [value]="emEdicao()?.id ?? ''" />
 
     <label for="tarefa-titulo-input">
       Título <span aria-hidden="true">*</span>

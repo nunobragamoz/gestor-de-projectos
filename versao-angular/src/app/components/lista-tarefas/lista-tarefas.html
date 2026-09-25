@@ -15,6 +15,7 @@
       <app-cartao-tarefa
         [tarefa]="tarefa"
         [projeto]="projetoDe(tarefa.projetoId)"
+        (editar)="editar.emit($event)"
       />
     }
 

@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, input, signal, viewChild } from '@angula
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ESTADOS, PRIORIDADES } from '../../data/opcoes';
 import { Projeto } from '../../models/projeto';
-import { Estado, Prioridade } from '../../models/tarefa';
+import { Estado, Prioridade, Tarefa } from '../../models/tarefa';
 import { TarefaService } from '../../services/tarefa-service';
 import { obrigatorio } from '../../utils/validadores';
 
@@ -41,17 +41,22 @@ export class FormularioTarefa {
     estado: new FormControl<Estado>('por-fazer', { nonNullable: true }),
   });
 
+  // null ao criar; a tarefa que se está a editar ao editar.
+  protected readonly emEdicao = signal<Tarefa | null>(null);
+
   // O erro só aparece depois de tentar guardar, e some ao escrever.
   protected readonly erro = signal(false);
 
-  // Chamado pelo App. Cada abertura começa com o formulário limpo.
-  abrir(projetoId: string): void {
+  // Chamado pelo Painel. Cada abertura começa com o formulário limpo, ou com
+  // os dados da tarefa a editar.
+  abrir(projetoId: string, tarefa: Tarefa | null = null): void {
+    this.emEdicao.set(tarefa);
     this.form.reset({
-      titulo: '',
-      descricao: '',
+      titulo: tarefa?.titulo ?? '',
+      descricao: tarefa?.descricao ?? '',
       projetoId,
-      prioridade: 'media',
-      estado: 'por-fazer',
+      prioridade: tarefa?.prioridade ?? 'media',
+      estado: tarefa?.estado ?? 'por-fazer',
     });
     this.erro.set(false);
     this.dialogo().nativeElement.showModal();
@@ -68,14 +73,20 @@ export class FormularioTarefa {
     }
 
     const { titulo, descricao, projetoId, prioridade, estado } = this.form.getRawValue();
-
-    this.tarefaService.adicionar({
+    const dados = {
       titulo: titulo.trim(),
       descricao: descricao.trim(),
       prioridade,
       estado,
       projetoId,
-    });
+    };
+    const tarefa = this.emEdicao();
+
+    if (tarefa) {
+      this.tarefaService.atualizar(tarefa.id, dados);
+    } else {
+      this.tarefaService.adicionar(dados);
+    }
 
     this.fechar();
   }

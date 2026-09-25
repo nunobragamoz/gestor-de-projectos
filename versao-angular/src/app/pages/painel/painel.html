@@ -17,7 +17,11 @@
 
     <app-barra-ferramentas (novaTarefa)="novaTarefa()" />
 
-    <app-quadro [tarefas]="tarefasVisiveis()" [projetos]="projetos()" />
+    <app-quadro
+      [tarefas]="tarefasVisiveis()"
+      [projetos]="projetos()"
+      (editar)="editarTarefa($event)"
+    />
 
   </div>
 

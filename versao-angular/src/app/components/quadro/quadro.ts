@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { ESTADOS } from '../../data/opcoes';
 import { Projeto } from '../../models/projeto';
 import { Estado, Tarefa } from '../../models/tarefa';
@@ -13,6 +13,8 @@ import { ListaTarefas } from '../lista-tarefas/lista-tarefas';
 export class Quadro {
   tarefas = input.required<Tarefa[]>();
   projetos = input.required<Projeto[]>();
+
+  readonly editar = output<Tarefa>();
 
   protected readonly estados = ESTADOS;
 

@@ -17,7 +17,12 @@
   }
 
   <footer class="tarefa-acoes">
-    <select class="tarefa-estado" aria-label="Estado da tarefa">
+    <select
+      #seletor
+      class="tarefa-estado"
+      aria-label="Estado da tarefa"
+      (change)="mudarEstado(seletor.value)"
+    >
       @for (estado of estados; track estado.valor) {
         <option [value]="estado.valor" [selected]="estado.valor === tarefa().estado">
           {{ estado.rotulo }}
@@ -25,7 +30,11 @@
       }
     </select>
 
-    <button type="button" class="btn btn-editar">Editar</button>
-    <button type="button" class="btn btn-apagar">Apagar</button>
+    <button type="button" class="btn btn-editar" (click)="editar.emit(tarefa())">
+      Editar
+    </button>
+    <button type="button" class="btn btn-apagar" (click)="apagar()">
+      Apagar
+    </button>
   </footer>
 </article>

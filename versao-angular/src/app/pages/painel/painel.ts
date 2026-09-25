@@ -5,6 +5,7 @@ import { FormularioTarefa } from '../../components/formulario-tarefa/formulario-
 import { ListaProjetos } from '../../components/lista-projetos/lista-projetos';
 import { ProjetoAtual } from '../../components/projeto-atual/projeto-atual';
 import { Quadro } from '../../components/quadro/quadro';
+import { Tarefa } from '../../models/tarefa';
 import { ProjetoService } from '../../services/projeto-service';
 import { TarefaService } from '../../services/tarefa-service';
 
@@ -66,5 +67,9 @@ export class Painel {
 
     // Em "Todos os projetos" o formulário pré-seleciona o primeiro projeto.
     this.formularioTarefa().abrir(this.projetoSelecionado()?.id ?? projetos[0].id);
+  }
+
+  protected editarTarefa(tarefa: Tarefa): void {
+    this.formularioTarefa().abrir(tarefa.projetoId, tarefa);
   }
 }

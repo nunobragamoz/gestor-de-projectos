@@ -1,7 +1,7 @@
 import { Service, effect, signal } from '@angular/core';
 import { carregarLista, gravarLista } from '../data/armazenamento';
 import { tarefasExemplo } from '../data/dados-exemplo';
-import { DadosTarefa, Tarefa } from '../models/tarefa';
+import { DadosTarefa, Estado, Tarefa } from '../models/tarefa';
 
 @Service()
 export class TarefaService {
@@ -29,6 +29,23 @@ export class TarefaService {
     this.lista.update((tarefas) => [...tarefas, tarefa]);
   }
 
+  atualizar(id: string, dados: DadosTarefa): void {
+    this.lista.update((tarefas) =>
+      tarefas.map((tarefa) => (tarefa.id === id ? { ...tarefa, ...dados } : tarefa)),
+    );
+  }
+
+  mudarEstado(id: string, estado: Estado): void {
+    this.lista.update((tarefas) =>
+      tarefas.map((tarefa) => (tarefa.id === id ? { ...tarefa, estado } : tarefa)),
+    );
+  }
+
+  apagar(id: string): void {
+    this.lista.update((tarefas) => tarefas.filter((tarefa) => tarefa.id !== id));
+  }
+
+  // Usado pelo ProjetoService quando um projeto é apagado.
   apagarDoProjeto(projetoId: string): void {
     this.lista.update((tarefas) => tarefas.filter((tarefa) => tarefa.projetoId !== projetoId));
   }
