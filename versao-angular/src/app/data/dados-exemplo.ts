@@ -1,7 +1,7 @@
 import { Projeto } from '../models/projeto';
 import { Tarefa } from '../models/tarefa';
 
-export const projetosMock: Projeto[] = [
+export const projetosExemplo: Projeto[] = [
   {
     id: 'p1',
     nome: 'Site da Padaria',
@@ -25,7 +25,7 @@ export const projetosMock: Projeto[] = [
   },
 ];
 
-export const tarefasMock: Tarefa[] = [
+export const tarefasExemplo: Tarefa[] = [
   {
     id: '1',
     titulo: 'Enviar orçamento ao cliente',

@@ -19,7 +19,12 @@
     }
   </select>
 
-  <button type="button" id="btn-nova" class="btn btn-primario">
+  <button
+    type="button"
+    id="btn-nova"
+    class="btn btn-primario"
+    (click)="novaTarefa.emit()"
+  >
     + Nova tarefa
   </button>
 

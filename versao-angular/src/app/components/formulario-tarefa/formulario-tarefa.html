@@ -1,4 +1,5 @@
 <dialog
+  #dialogo
   id="modal-tarefa"
   class="modal"
   aria-labelledby="modal-titulo"
@@ -9,6 +10,8 @@
     class="form"
     method="dialog"
     novalidate
+    [formGroup]="form"
+    (ngSubmit)="guardar($event)"
   >
 
     <h2 id="modal-titulo">Nova tarefa</h2>
@@ -20,14 +23,18 @@
     </label>
 
     <input
+      #campoTitulo
       type="text"
       id="tarefa-titulo-input"
       class="campo"
       required
       maxlength="80"
+      formControlName="titulo"
+      [attr.aria-invalid]="erro() ? 'true' : null"
+      (input)="erro.set(false)"
     />
 
-    <p class="erro" id="erro-titulo" hidden>
+    <p class="erro" id="erro-titulo" [hidden]="!erro()">
       O título é obrigatório.
     </p>
 
@@ -38,11 +45,16 @@
       class="campo"
       rows="4"
       maxlength="500"
+      formControlName="descricao"
     ></textarea>
 
     <label for="tarefa-projeto-input">Projeto</label>
 
-    <select id="tarefa-projeto-input" class="campo">
+    <select
+      id="tarefa-projeto-input"
+      class="campo"
+      formControlName="projetoId"
+    >
       @for (projeto of projetos(); track projeto.id) {
         <option [value]="projeto.id">{{ projeto.nome }}</option>
       }
@@ -54,9 +66,13 @@
 
         <label for="tarefa-prioridade-input">Prioridade</label>
 
-        <select id="tarefa-prioridade-input" class="campo">
+        <select
+          id="tarefa-prioridade-input"
+          class="campo"
+          formControlName="prioridade"
+        >
           @for (valor of ordem; track valor) {
-            <option [value]="valor" [selected]="valor === 'media'">
+            <option [value]="valor">
               {{ prioridades[valor] }}
             </option>
           }
@@ -68,12 +84,13 @@
 
         <label for="tarefa-estado-input">Estado</label>
 
-        <select id="tarefa-estado-input" class="campo">
+        <select
+          id="tarefa-estado-input"
+          class="campo"
+          formControlName="estado"
+        >
           @for (estado of estados; track estado.valor) {
-            <option
-              [value]="estado.valor"
-              [selected]="estado.valor === 'por-fazer'"
-            >
+            <option [value]="estado.valor">
               {{ estado.rotulo }}
             </option>
           }
@@ -85,7 +102,12 @@
 
     <div class="form-acoes">
 
-      <button type="button" id="btn-cancelar" class="btn">
+      <button
+        type="button"
+        id="btn-cancelar"
+        class="btn"
+        (click)="fechar()"
+      >
         Cancelar
       </button>
       <button type="submit" class="btn btn-primario">

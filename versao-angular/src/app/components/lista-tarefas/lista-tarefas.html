@@ -7,6 +7,10 @@
 
   <div class="coluna-lista">
 
+    @if (tarefas().length === 0) {
+      <p class="coluna-vazia">Sem tarefas</p>
+    }
+
     @for (tarefa of tarefas(); track tarefa.id) {
       <app-cartao-tarefa
         [tarefa]="tarefa"

@@ -6,27 +6,27 @@
 <div class="layout">
 
   <app-lista-projetos
-    [projetos]="projetos"
-    [tarefas]="tarefas"
+    [projetos]="projetos()"
+    [tarefas]="tarefas()"
     [projetoSelecionadoId]="projetoSelecionadoId"
   />
 
   <div class="conteudo">
 
     <app-projeto-atual
-      [projeto]="projetoSelecionado"
-      [tarefas]="tarefas"
-      [projetos]="projetos"
+      [projeto]="projetoSelecionado()"
+      [tarefas]="tarefas()"
+      [projetos]="projetos()"
     />
 
-    <app-barra-ferramentas />
+    <app-barra-ferramentas (novaTarefa)="novaTarefa()" />
 
-    <app-quadro [tarefas]="tarefas" [projetos]="projetos" />
+    <app-quadro [tarefas]="tarefas()" [projetos]="projetos()" />
 
   </div>
 
 </div>
 
-<app-formulario-tarefa [projetos]="projetos" />
+<app-formulario-tarefa [projetos]="projetos()" />
 
 <app-formulario-projeto />

@@ -11,3 +11,6 @@ export interface Tarefa {
   projetoId: string;
   criadaEm: string;
 }
+
+// O que o formulário preenche: o id e a data são gerados pelo TarefaService.
+export type DadosTarefa = Omit<Tarefa, 'id' | 'criadaEm'>;
