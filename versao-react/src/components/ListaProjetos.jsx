@@ -1,4 +1,4 @@
-function ItemProjeto({ id, nome, cor, contador, ativo }) {
+function ItemProjeto({ id, nome, cor, contador, ativo, onSelecionar }) {
   return (
     <li>
       <button
@@ -7,6 +7,7 @@ function ItemProjeto({ id, nome, cor, contador, ativo }) {
         data-projeto={id}
         aria-current={ativo ? "true" : undefined}
         style={{ "--cor-projeto": cor }}
+        onClick={() => onSelecionar(id)}
       >
         <span className="projeto-cor"></span>
         <span className="projeto-nome">{nome}</span>
@@ -16,7 +17,13 @@ function ItemProjeto({ id, nome, cor, contador, ativo }) {
   );
 }
 
-function ListaProjetos({ projetos, tarefas, projetoSelecionadoId }) {
+function ListaProjetos({
+  projetos,
+  tarefas,
+  projetoSelecionadoId,
+  onSelecionar,
+  onNovoProjeto,
+}) {
   return (
     <aside className="projetos" aria-label="Projetos">
 
@@ -29,6 +36,7 @@ function ListaProjetos({ projetos, tarefas, projetoSelecionadoId }) {
           id="btn-novo-projeto"
           className="btn btn-icone"
           aria-label="Novo projeto"
+          onClick={onNovoProjeto}
         >
           +
         </button>
@@ -43,6 +51,7 @@ function ListaProjetos({ projetos, tarefas, projetoSelecionadoId }) {
           cor="var(--text-muted)"
           contador={tarefas.length}
           ativo={projetoSelecionadoId === "todos"}
+          onSelecionar={onSelecionar}
         />
 
         {projetos.map((projeto) => (
@@ -55,6 +64,7 @@ function ListaProjetos({ projetos, tarefas, projetoSelecionadoId }) {
               tarefas.filter((tarefa) => tarefa.projetoId === projeto.id).length
             }
             ativo={projetoSelecionadoId === projeto.id}
+            onSelecionar={onSelecionar}
           />
         ))}
 
