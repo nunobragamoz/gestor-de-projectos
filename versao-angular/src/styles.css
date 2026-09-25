@@ -189,6 +189,16 @@ acompanham os tokens se forem alterados.
   gap: 0.75rem;
 }
 
+/* Mensagem de coluna vazia ("Sem tarefas" ou "Sem resultados"). */
+.coluna-vazia {
+  padding: 1.5rem 0.5rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 /* Cards e Badges */
 
 .tarefa {
