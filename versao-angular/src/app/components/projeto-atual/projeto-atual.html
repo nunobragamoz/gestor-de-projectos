@@ -12,6 +12,7 @@
     id="btn-editar-projeto"
     class="btn"
     [hidden]="!projeto()"
+    (click)="editar.emit()"
   >
     Editar projeto
   </button>

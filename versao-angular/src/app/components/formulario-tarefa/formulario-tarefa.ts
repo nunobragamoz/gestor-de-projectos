@@ -1,21 +1,10 @@
 import { Component, ElementRef, inject, input, signal, viewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ESTADOS, PRIORIDADES } from '../../data/opcoes';
 import { Projeto } from '../../models/projeto';
 import { Estado, Prioridade } from '../../models/tarefa';
 import { TarefaService } from '../../services/tarefa-service';
-
-// Validators.required aceita "   ", por isso o título é validado sem espaços.
-function obrigatorio(controlo: AbstractControl<string>): ValidationErrors | null {
-  return controlo.value.trim() ? null : { obrigatorio: true };
-}
+import { obrigatorio } from '../../utils/validadores';
 
 @Component({
   imports: [ReactiveFormsModule],

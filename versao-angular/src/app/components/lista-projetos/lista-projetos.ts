@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Projeto } from '../../models/projeto';
 import { Tarefa } from '../../models/tarefa';
 
 @Component({
-  imports: [],
+  imports: [RouterLink, RouterLinkActive],
   selector: 'app-lista-projetos',
   styleUrl: './lista-projetos.css',
   templateUrl: './lista-projetos.html',
@@ -11,7 +12,8 @@ import { Tarefa } from '../../models/tarefa';
 export class ListaProjetos {
   projetos = input.required<Projeto[]>();
   tarefas = input.required<Tarefa[]>();
-  projetoSelecionadoId = input.required<string>();
+
+  readonly novoProjeto = output<void>();
 
   protected contarTarefas(projetoId: string): number {
     return this.tarefas().filter((tarefa) => tarefa.projetoId === projetoId).length;

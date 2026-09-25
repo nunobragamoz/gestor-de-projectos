@@ -28,4 +28,8 @@ export class TarefaService {
     // um valor diferente.
     this.lista.update((tarefas) => [...tarefas, tarefa]);
   }
+
+  apagarDoProjeto(projetoId: string): void {
+    this.lista.update((tarefas) => tarefas.filter((tarefa) => tarefa.projetoId !== projetoId));
+  }
 }

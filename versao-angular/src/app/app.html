@@ -3,30 +3,4 @@
   <p class="topo-subtitulo">Aqui pode organizar o seu trabalho.</p>
 </header>
 
-<div class="layout">
-
-  <app-lista-projetos
-    [projetos]="projetos()"
-    [tarefas]="tarefas()"
-    [projetoSelecionadoId]="projetoSelecionadoId"
-  />
-
-  <div class="conteudo">
-
-    <app-projeto-atual
-      [projeto]="projetoSelecionado()"
-      [tarefas]="tarefas()"
-      [projetos]="projetos()"
-    />
-
-    <app-barra-ferramentas (novaTarefa)="novaTarefa()" />
-
-    <app-quadro [tarefas]="tarefas()" [projetos]="projetos()" />
-
-  </div>
-
-</div>
-
-<app-formulario-tarefa [projetos]="projetos()" />
-
-<app-formulario-projeto />
+<router-outlet />

@@ -1,4 +1,5 @@
 <dialog
+  #dialogo
   id="modal-projeto"
   class="modal"
   aria-labelledby="modal-projeto-titulo"
@@ -9,25 +10,33 @@
     class="form"
     method="dialog"
     novalidate
+    [formGroup]="form"
+    (ngSubmit)="guardar($event)"
   >
 
-    <h2 id="modal-projeto-titulo">Novo projeto</h2>
+    <h2 id="modal-projeto-titulo">
+      {{ emEdicao() ? 'Editar projeto' : 'Novo projeto' }}
+    </h2>
 
-    <input type="hidden" id="projeto-id" />
+    <input type="hidden" id="projeto-id" [value]="emEdicao()?.id ?? ''" />
 
     <label for="projeto-nome-input">
       Nome <span aria-hidden="true">*</span>
     </label>
 
     <input
+      #campoNome
       type="text"
       id="projeto-nome-input"
       class="campo"
       required
       maxlength="60"
+      formControlName="nome"
+      [attr.aria-invalid]="erro() ? 'true' : null"
+      (input)="erro.set(false)"
     />
 
-    <p class="erro" id="erro-projeto-nome" hidden>
+    <p class="erro" id="erro-projeto-nome" [hidden]="!erro()">
       O nome do projeto é obrigatório.
     </p>
 
@@ -38,20 +47,22 @@
       id="projeto-cliente-input"
       class="campo"
       maxlength="60"
+      formControlName="cliente"
     />
 
     <fieldset class="cores">
 
       <legend>Cor</legend>
 
-      @for (cor of cores; track cor.valor; let primeira = $first) {
+      @for (cor of cores; track cor.valor) {
         <label class="cor-opcao">
           <input
             type="radio"
             name="projeto-cor"
+            [formControl]="form.controls.cor"
             [value]="cor.valor"
+            [attr.value]="cor.valor"
             [attr.aria-label]="cor.nome"
-            [checked]="primeira"
           />
           <span [style.--cor-projeto]="cor.valor"></span>
         </label>
@@ -65,12 +76,18 @@
         type="button"
         id="btn-apagar-projeto"
         class="btn btn-apagar"
-        hidden
+        [hidden]="!emEdicao()"
+        (click)="apagar()"
       >
         Apagar projeto
       </button>
 
-      <button type="button" id="btn-cancelar-projeto" class="btn">
+      <button
+        type="button"
+        id="btn-cancelar-projeto"
+        class="btn"
+        (click)="fechar()"
+      >
         Cancelar
       </button>
 

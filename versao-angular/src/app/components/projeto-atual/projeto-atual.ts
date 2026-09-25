@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Projeto } from '../../models/projeto';
 import { Tarefa } from '../../models/tarefa';
 
@@ -16,6 +16,8 @@ export class ProjetoAtual {
   projeto = input<Projeto>();
   tarefas = input.required<Tarefa[]>();
   projetos = input.required<Projeto[]>();
+
+  readonly editar = output<void>();
 
   protected readonly nome = computed(() => this.projeto()?.nome ?? 'Todas as tarefas');
 

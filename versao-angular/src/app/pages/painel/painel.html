@@ -1,0 +1,28 @@
+<div class="layout">
+
+  <app-lista-projetos
+    [projetos]="projetos()"
+    [tarefas]="tarefas()"
+    (novoProjeto)="novoProjeto()"
+  />
+
+  <div class="conteudo">
+
+    <app-projeto-atual
+      [projeto]="projetoSelecionado()"
+      [tarefas]="tarefas()"
+      [projetos]="projetos()"
+      (editar)="editarProjeto()"
+    />
+
+    <app-barra-ferramentas (novaTarefa)="novaTarefa()" />
+
+    <app-quadro [tarefas]="tarefasVisiveis()" [projetos]="projetos()" />
+
+  </div>
+
+</div>
+
+<app-formulario-tarefa [projetos]="projetos()" />
+
+<app-formulario-projeto />

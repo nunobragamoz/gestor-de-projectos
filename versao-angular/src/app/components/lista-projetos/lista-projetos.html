@@ -9,6 +9,7 @@
       id="btn-novo-projeto"
       class="btn btn-icone"
       aria-label="Novo projeto"
+      (click)="novoProjeto.emit()"
     >
       +
     </button>
@@ -22,8 +23,10 @@
         type="button"
         class="projeto-item"
         data-projeto="todos"
-        [class.ativo]="projetoSelecionadoId() === 'todos'"
-        [attr.aria-current]="projetoSelecionadoId() === 'todos' ? 'true' : null"
+        routerLink="/projetos"
+        routerLinkActive="ativo"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [ariaCurrentWhenActive]="true"
         style="--cor-projeto: var(--text-muted)"
       >
         <span class="projeto-cor"></span>
@@ -38,8 +41,9 @@
           type="button"
           class="projeto-item"
           [attr.data-projeto]="projeto.id"
-          [class.ativo]="projetoSelecionadoId() === projeto.id"
-          [attr.aria-current]="projetoSelecionadoId() === projeto.id ? 'true' : null"
+          [routerLink]="['/projetos', projeto.id]"
+          routerLinkActive="ativo"
+          [ariaCurrentWhenActive]="true"
           [style.--cor-projeto]="projeto.cor"
         >
           <span class="projeto-cor"></span>
