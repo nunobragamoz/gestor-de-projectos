@@ -135,6 +135,16 @@ $(function () {
     });
   }
 
+  // render() recria os projetos e os cartões, e o elemento com o foco
+  // desaparece. Quem usa o teclado perdia o sítio, por isso o foco passa para
+  // o elemento equivalente que acabou de ser criado. Se ele não existir (por
+  // exemplo, escondido pelos filtros), usa a alternativa.
+  function focar(seletor, alternativa) {
+    const $elemento = $(seletor);
+
+    ($elemento.length ? $elemento : $(alternativa)).first().trigger('focus');
+  }
+
   function criarOpcoesEstado() {
     return ESTADOS.map(function (estado) {
       return $('<option>', { value: estado.valor, text: estado.rotulo });
@@ -295,6 +305,7 @@ $(function () {
   $('#projetos-lista').on('click', '.projeto-item', function () {
     projetoSelecionadoId = $(this).attr('data-projeto');
     render();
+    focar('.projeto-item[data-projeto="' + projetoSelecionadoId + '"]');
   });
 
   function mostrarErroNome(mostrar) {
@@ -397,6 +408,10 @@ $(function () {
     gravar();
     fecharFormularioProjeto();
     render();
+
+    // O botão "Editar projeto" ficou escondido: o foco vai para
+    // "Todos os projetos", que é o que fica selecionado.
+    focar('.projeto-item[data-projeto="todos"]');
   });
 
   /* Tarefas */
@@ -486,6 +501,12 @@ $(function () {
     gravar();
     fecharFormularioTarefa();
     render();
+
+    // Ao editar, o foco volta ao botão "Editar" do cartão (que foi recriado).
+    // Se a tarefa já não aparece (por causa dos filtros), vai para "Nova tarefa".
+    if (id) {
+      focar('.tarefa[data-id="' + id + '"] .btn-editar', '#btn-nova');
+    }
   });
 
   // Os cartões são recriados em cada render, por isso os eventos ficam no
@@ -501,12 +522,20 @@ $(function () {
       return;
     }
 
+    // O cartão seguinte da mesma coluna (ou o anterior, se era o último)
+    // recebe o foco depois de apagar.
+    const $cartao = $(this).closest('.tarefa');
+    const $vizinho = $cartao.next('.tarefa').length ? $cartao.next('.tarefa') : $cartao.prev('.tarefa');
+    const vizinhoId = $vizinho.attr('data-id');
+
     tarefas = tarefas.filter(function (item) {
       return item.id !== tarefa.id;
     });
 
     gravar();
     render();
+
+    focar('.tarefa[data-id="' + vizinhoId + '"] .btn-apagar', '#btn-nova');
   });
 
   $('#quadro').on('change', '.tarefa-estado', function () {
