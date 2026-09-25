@@ -5,12 +5,19 @@
 
 <div class="layout">
 
-  <!-- lista-projetos entra aqui no passo 10 -->
-  <aside class="projetos" aria-label="Projetos"></aside>
+  <app-lista-projetos
+    [projetos]="projetos"
+    [tarefas]="tarefas"
+    [projetoSelecionadoId]="projetoSelecionadoId"
+  />
 
   <div class="conteudo">
 
-    <!-- projeto-atual entra aqui no passo 10 -->
+    <app-projeto-atual
+      [projeto]="projetoSelecionado"
+      [tarefas]="tarefas"
+      [projetos]="projetos"
+    />
 
     <app-barra-ferramentas />
 
@@ -21,3 +28,5 @@
 </div>
 
 <app-formulario-tarefa [projetos]="projetos" />
+
+<app-formulario-projeto />

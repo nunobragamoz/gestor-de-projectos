@@ -1,0 +1,85 @@
+<dialog
+  id="modal-projeto"
+  class="modal"
+  aria-labelledby="modal-projeto-titulo"
+>
+
+  <form
+    id="form-projeto"
+    class="form"
+    method="dialog"
+    novalidate
+  >
+
+    <h2 id="modal-projeto-titulo">Novo projeto</h2>
+
+    <input type="hidden" id="projeto-id" />
+
+    <label for="projeto-nome-input">
+      Nome <span aria-hidden="true">*</span>
+    </label>
+
+    <input
+      type="text"
+      id="projeto-nome-input"
+      class="campo"
+      required
+      maxlength="60"
+    />
+
+    <p class="erro" id="erro-projeto-nome" hidden>
+      O nome do projeto é obrigatório.
+    </p>
+
+    <label for="projeto-cliente-input">Cliente</label>
+
+    <input
+      type="text"
+      id="projeto-cliente-input"
+      class="campo"
+      maxlength="60"
+    />
+
+    <fieldset class="cores">
+
+      <legend>Cor</legend>
+
+      @for (cor of cores; track cor.valor; let primeira = $first) {
+        <label class="cor-opcao">
+          <input
+            type="radio"
+            name="projeto-cor"
+            [value]="cor.valor"
+            [attr.aria-label]="cor.nome"
+            [checked]="primeira"
+          />
+          <span [style.--cor-projeto]="cor.valor"></span>
+        </label>
+      }
+
+    </fieldset>
+
+    <div class="form-acoes">
+
+      <button
+        type="button"
+        id="btn-apagar-projeto"
+        class="btn btn-apagar"
+        hidden
+      >
+        Apagar projeto
+      </button>
+
+      <button type="button" id="btn-cancelar-projeto" class="btn">
+        Cancelar
+      </button>
+
+      <button type="submit" class="btn btn-primario">
+        Guardar
+      </button>
+
+    </div>
+
+  </form>
+
+</dialog>

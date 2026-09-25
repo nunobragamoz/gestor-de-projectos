@@ -1,0 +1,19 @@
+<div class="projeto-atual">
+
+  <div>
+    <h2 id="projeto-atual-nome">{{ nome() }}</h2>
+    <p class="projeto-cliente" id="projeto-atual-cliente">
+      {{ resumo() }}
+    </p>
+  </div>
+
+  <button
+    type="button"
+    id="btn-editar-projeto"
+    class="btn"
+    [hidden]="!projeto()"
+  >
+    Editar projeto
+  </button>
+
+</div>

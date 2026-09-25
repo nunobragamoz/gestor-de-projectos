@@ -1,0 +1,54 @@
+<aside class="projetos" aria-label="Projetos">
+
+  <div class="projetos-topo">
+
+    <h2>Projetos</h2>
+
+    <button
+      type="button"
+      id="btn-novo-projeto"
+      class="btn btn-icone"
+      aria-label="Novo projeto"
+    >
+      +
+    </button>
+
+  </div>
+
+  <ul class="projetos-lista" id="projetos-lista">
+
+    <li>
+      <button
+        type="button"
+        class="projeto-item"
+        data-projeto="todos"
+        [class.ativo]="projetoSelecionadoId() === 'todos'"
+        [attr.aria-current]="projetoSelecionadoId() === 'todos' ? 'true' : null"
+        style="--cor-projeto: var(--text-muted)"
+      >
+        <span class="projeto-cor"></span>
+        <span class="projeto-nome">Todos os projetos</span>
+        <span class="projeto-contador">{{ tarefas().length }}</span>
+      </button>
+    </li>
+
+    @for (projeto of projetos(); track projeto.id) {
+      <li>
+        <button
+          type="button"
+          class="projeto-item"
+          [attr.data-projeto]="projeto.id"
+          [class.ativo]="projetoSelecionadoId() === projeto.id"
+          [attr.aria-current]="projetoSelecionadoId() === projeto.id ? 'true' : null"
+          [style.--cor-projeto]="projeto.cor"
+        >
+          <span class="projeto-cor"></span>
+          <span class="projeto-nome">{{ projeto.nome }}</span>
+          <span class="projeto-contador">{{ contarTarefas(projeto.id) }}</span>
+        </button>
+      </li>
+    }
+
+  </ul>
+
+</aside>
