@@ -111,12 +111,28 @@ $(function () {
     });
   }
 
-  function tarefasVisiveis() {
-    if (projetoSelecionadoId === 'todos') {
-      return tarefas;
-    }
+  // NFD separa cada letra do seu acento ("ç" passa a "c" + cedilha) e o
+  // replace remove os acentos, por isso "orcamento" encontra "Orçamento".
+  function normalizar(texto) {
+    return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  }
 
-    return tarefasDoProjeto(projetoSelecionadoId);
+  function filtroAtivo() {
+    return $('#pesquisa').val().trim() !== '' || $('#filtro-prioridade').val() !== 'todas';
+  }
+
+  // Projeto selecionado + pesquisa + prioridade, tudo combinado.
+  function tarefasVisiveis() {
+    const pesquisa = normalizar($('#pesquisa').val().trim());
+    const prioridade = $('#filtro-prioridade').val();
+
+    return tarefas.filter(function (tarefa) {
+      const doProjeto = projetoSelecionadoId === 'todos' || tarefa.projetoId === projetoSelecionadoId;
+      const daPrioridade = prioridade === 'todas' || tarefa.prioridade === prioridade;
+      const encontrada = normalizar(tarefa.titulo + ' ' + tarefa.descricao).includes(pesquisa);
+
+      return doProjeto && daPrioridade && encontrada;
+    });
   }
 
   function criarOpcoesEstado() {
@@ -239,7 +255,10 @@ $(function () {
       $coluna.find('.contador').text(daColuna.length);
 
       if (daColuna.length === 0) {
-        $lista.append($('<p>', { class: 'coluna-vazia', text: 'Sem tarefas' }));
+        $lista.append($('<p>', {
+          class: 'coluna-vazia',
+          text: filtroAtivo() ? 'Sem resultados' : 'Sem tarefas',
+        }));
         return;
       }
 
@@ -490,22 +509,58 @@ $(function () {
     render();
   });
 
+  $('#quadro').on('change', '.tarefa-estado', function () {
+    const tarefa = tarefaDoCartao(this);
+
+    tarefa.estado = $(this).val();
+    gravar();
+    render();
+
+    // O cartão foi recriado noutra coluna: devolve-lhe o foco para quem
+    // usa o teclado não perder o sítio.
+    $('.tarefa[data-id="' + tarefa.id + '"] .tarefa-estado').trigger('focus');
+  });
+
+  /* Pesquisa e filtro */
+
+  $('#pesquisa').on('input', renderTarefas);
+  $('#filtro-prioridade').on('change', renderTarefas);
+
   /* Arranque */
+
+  function usarDadosExemplo(dados) {
+    const validos = dados && Array.isArray(dados.projetos) && Array.isArray(dados.tarefas);
+    const origem = validos ? dados : DADOS_EXEMPLO;
+
+    // Cópia, para as alterações do utilizador não mexerem nas constantes.
+    projetos = JSON.parse(JSON.stringify(origem.projetos));
+    tarefas = JSON.parse(JSON.stringify(origem.tarefas));
+    gravar();
+    render();
+  }
+
+  $('#tarefa-estado-input').append(criarOpcoesEstado());
 
   // Só usa os dados de exemplo se a chave nunca foi gravada. Se o utilizador
   // apagar todos os projetos, a lista vazia fica guardada e não volta a
   // aparecer o exemplo ao recarregar.
   if (localStorage.getItem('projetos') === null) {
-    projetos = JSON.parse(JSON.stringify(DADOS_EXEMPLO.projetos));
-    tarefas = JSON.parse(JSON.stringify(DADOS_EXEMPLO.tarefas));
-    gravar();
+    // Aberto com file:// o browser bloqueia o pedido (e mostra um erro na
+    // consola), por isso usa logo os dados definidos neste ficheiro. O
+    // .fail() cobre os outros casos, por exemplo o JSON não existir.
+    if (location.protocol === 'file:') {
+      usarDadosExemplo(null);
+    } else {
+      $.ajax({ url: 'dados-exemplo.json', dataType: 'json' })
+        .done(usarDadosExemplo)
+        .fail(function () {
+          usarDadosExemplo(null);
+        });
+    }
   } else {
     projetos = ler('projetos');
     tarefas = ler('tarefas');
+    render();
   }
-
-  $('#tarefa-estado-input').append(criarOpcoesEstado());
-
-  render();
 
 });

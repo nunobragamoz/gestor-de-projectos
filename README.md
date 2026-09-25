@@ -45,6 +45,12 @@ Chave no localStorage: `tarefas`
 Cada tarefa tem um campo `projetoId` que aponta para o `id` do projeto.
 Chave no localStorage: `projetos`
 
+## Dados de exemplo (versão jQuery)
+
+Na primeira utilização (sem a chave `projetos` no localStorage), a versão jQuery carrega `versao-jquery/dados-exemplo.json` com `$.ajax()`.
+
+Quando o `index.html` é aberto diretamente (endereço `file://`), o browser bloqueia este pedido por segurança. Nesse caso a app usa os mesmos dados, definidos em `script.js` (`DADOS_EXEMPLO`), e funciona na mesma. Para ver o `$.ajax()` a carregar o JSON, abre a pasta com um servidor local, por exemplo a extensão Live Server do VS Code.
+
 ## Limitações do jQuery
 
 O elemento `<dialog>` nativo fornece o fundo, a tecla Esc para fechar e o control de focagem automaticamente. Fica oculto até ser aberto com `$('#modal-tarefa')[0].showModal()`. O `[0]` obtém o elemento DOM puro, uma vez que `showModal()` não é um método do jQuery.
