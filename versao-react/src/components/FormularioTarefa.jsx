@@ -1,17 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { ESTADOS, PRIORIDADES } from "../data/opcoes";
 
-// O App muda a "key" deste componente sempre que o formulário abre, por isso
-// cada abertura começa com um estado novo, a partir das props.
-function FormularioTarefa({ aberto, projetos, projetoInicialId, onGuardar, onFechar }) {
+// Serve para criar (tarefa = null) e para editar. O App muda a "key" sempre
+// que o formulário abre, por isso cada abertura começa com um estado novo.
+function FormularioTarefa({
+  aberto,
+  tarefa,
+  projetos,
+  projetoInicialId,
+  onGuardar,
+  onFechar,
+}) {
   const dialogRef = useRef(null);
   const tituloRef = useRef(null);
 
-  const [titulo, setTitulo] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [projetoId, setProjetoId] = useState(projetoInicialId);
-  const [prioridade, setPrioridade] = useState("media");
-  const [estado, setEstado] = useState("por-fazer");
+  const [titulo, setTitulo] = useState(tarefa?.titulo ?? "");
+  const [descricao, setDescricao] = useState(tarefa?.descricao ?? "");
+  const [projetoId, setProjetoId] = useState(tarefa?.projetoId ?? projetoInicialId);
+  const [prioridade, setPrioridade] = useState(tarefa?.prioridade ?? "media");
+  const [estado, setEstado] = useState(tarefa?.estado ?? "por-fazer");
   const [erro, setErro] = useState(false);
 
   // showModal() é um método do elemento DOM, por isso é preciso o ref.
@@ -58,9 +65,9 @@ function FormularioTarefa({ aberto, projetos, projetoInicialId, onGuardar, onFec
         onSubmit={submeter}
       >
 
-        <h2 id="modal-titulo">Nova tarefa</h2>
+        <h2 id="modal-titulo">{tarefa ? "Editar tarefa" : "Nova tarefa"}</h2>
 
-        <input type="hidden" id="tarefa-id" />
+        <input type="hidden" id="tarefa-id" defaultValue={tarefa?.id ?? ""} />
 
         <label htmlFor="tarefa-titulo-input">
           Título <span aria-hidden="true">*</span>

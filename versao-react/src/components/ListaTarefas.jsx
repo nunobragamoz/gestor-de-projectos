@@ -1,6 +1,14 @@
 import Tarefa from "./Tarefa";
 
-function ListaTarefas({ estado, titulo, tarefas, projetos }) {
+function ListaTarefas({
+  estado,
+  titulo,
+  tarefas,
+  projetos,
+  onEditar,
+  onApagar,
+  onMudarEstado,
+}) {
   return (
     <section className="coluna" data-estado={estado}>
 
@@ -18,6 +26,9 @@ function ListaTarefas({ estado, titulo, tarefas, projetos }) {
             key={tarefa.id}
             tarefa={tarefa}
             projeto={projetos.find((projeto) => projeto.id === tarefa.projetoId)}
+            onEditar={onEditar}
+            onApagar={onApagar}
+            onMudarEstado={onMudarEstado}
           />
         ))}
 

@@ -1,6 +1,6 @@
 import { ESTADOS, PRIORIDADES } from "../data/opcoes";
 
-function Tarefa({ tarefa, projeto }) {
+function Tarefa({ tarefa, projeto, onEditar, onApagar, onMudarEstado }) {
   return (
     <article className="tarefa" data-id={tarefa.id}>
       <header className="tarefa-topo">
@@ -27,7 +27,8 @@ function Tarefa({ tarefa, projeto }) {
         <select
           className="tarefa-estado"
           aria-label="Estado da tarefa"
-          defaultValue={tarefa.estado}
+          value={tarefa.estado}
+          onChange={(evento) => onMudarEstado(tarefa.id, evento.target.value)}
         >
           {ESTADOS.map((estado) => (
             <option key={estado.valor} value={estado.valor}>
@@ -36,10 +37,18 @@ function Tarefa({ tarefa, projeto }) {
           ))}
         </select>
 
-        <button type="button" className="btn btn-editar">
+        <button
+          type="button"
+          className="btn btn-editar"
+          onClick={() => onEditar(tarefa)}
+        >
           Editar
         </button>
-        <button type="button" className="btn btn-apagar">
+        <button
+          type="button"
+          className="btn btn-apagar"
+          onClick={() => onApagar(tarefa)}
+        >
           Apagar
         </button>
       </footer>

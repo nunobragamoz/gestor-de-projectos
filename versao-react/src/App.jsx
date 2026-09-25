@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import BarraFerramentas from "./components/BarraFerramentas";
 import FormularioProjeto from "./components/FormularioProjeto";
 import FormularioTarefa from "./components/FormularioTarefa";
@@ -15,6 +16,7 @@ function App() {
   const [projetoSelecionadoId, setProjetoSelecionadoId] = useState("todos");
 
   const [formularioTarefaAberto, setFormularioTarefaAberto] = useState(false);
+  const [tarefaEmEdicao, setTarefaEmEdicao] = useState(null);
   const [formularioProjetoAberto, setFormularioProjetoAberto] = useState(false);
   const [projetoEmEdicao, setProjetoEmEdicao] = useState(null);
 
@@ -92,7 +94,7 @@ function App() {
 
   /* Tarefas */
 
-  function abrirNovaTarefa() {
+  function abrirFormularioTarefa(tarefa) {
     // Cada tarefa pertence a um projeto, por isso sem projetos não há tarefas.
     if (projetos.length === 0) {
       alert("Para criar uma tarefa, crie primeiro um projeto.");
@@ -100,15 +102,45 @@ function App() {
       return;
     }
 
+    setTarefaEmEdicao(tarefa);
     setFormularioTarefaAberto(true);
   }
 
   function guardarTarefa(dados) {
-    setTarefas([
-      ...tarefas,
-      { id: crypto.randomUUID(), criadaEm: new Date().toISOString(), ...dados },
-    ]);
+    if (tarefaEmEdicao) {
+      setTarefas(
+        tarefas.map((tarefa) =>
+          tarefa.id === tarefaEmEdicao.id ? { ...tarefa, ...dados } : tarefa
+        )
+      );
+    } else {
+      setTarefas([
+        ...tarefas,
+        { id: crypto.randomUUID(), criadaEm: new Date().toISOString(), ...dados },
+      ]);
+    }
+
     setFormularioTarefaAberto(false);
+  }
+
+  function apagarTarefa(tarefa) {
+    if (!confirm(`Apagar a tarefa "${tarefa.titulo}"?`)) {
+      return;
+    }
+
+    setTarefas(tarefas.filter((item) => item.id !== tarefa.id));
+  }
+
+  function mudarEstado(id, estado) {
+    // flushSync aplica a mudança já, para o cartão existir na nova coluna
+    // antes de lhe devolver o foco (quem usa o teclado não perde o sítio).
+    flushSync(() => {
+      setTarefas(
+        tarefas.map((tarefa) => (tarefa.id === id ? { ...tarefa, estado } : tarefa))
+      );
+    });
+
+    document.querySelector(`.tarefa[data-id="${id}"] .tarefa-estado`)?.focus();
   }
 
   return (
@@ -137,9 +169,15 @@ function App() {
             onEditar={() => abrirFormularioProjeto(projetoSelecionado)}
           />
 
-          <BarraFerramentas onNovaTarefa={abrirNovaTarefa} />
+          <BarraFerramentas onNovaTarefa={() => abrirFormularioTarefa(null)} />
 
-          <Quadro tarefas={tarefasVisiveis} projetos={projetos} />
+          <Quadro
+            tarefas={tarefasVisiveis}
+            projetos={projetos}
+            onEditar={abrirFormularioTarefa}
+            onApagar={apagarTarefa}
+            onMudarEstado={mudarEstado}
+          />
 
         </div>
 
@@ -148,6 +186,7 @@ function App() {
       <FormularioTarefa
         key={formularioTarefaAberto ? "tarefa-aberto" : "tarefa-fechado"}
         aberto={formularioTarefaAberto}
+        tarefa={formularioTarefaAberto ? tarefaEmEdicao : null}
         projetos={projetos}
         projetoInicialId={projetoPadraoId}
         onGuardar={guardarTarefa}
