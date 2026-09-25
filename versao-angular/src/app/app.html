@@ -1,12 +1,23 @@
-<main class="quadro">
-  <section class="coluna" data-estado="por-fazer">
-    <div class="coluna-lista">
-      @for (tarefa of tarefas; track tarefa.id) {
-        <app-cartao-tarefa
-          [tarefa]="tarefa"
-          [projeto]="projetoDe(tarefa.projetoId)"
-        />
-      }
-    </div>
-  </section>
-</main>
+<header class="topo">
+  <h1>Gestor de Tarefas</h1>
+  <p class="topo-subtitulo">Aqui pode organizar o seu trabalho.</p>
+</header>
+
+<div class="layout">
+
+  <!-- lista-projetos entra aqui no passo 10 -->
+  <aside class="projetos" aria-label="Projetos"></aside>
+
+  <div class="conteudo">
+
+    <!-- projeto-atual entra aqui no passo 10 -->
+
+    <app-barra-ferramentas />
+
+    <app-quadro [tarefas]="tarefas" [projetos]="projetos" />
+
+  </div>
+
+</div>
+
+<app-formulario-tarefa [projetos]="projetos" />

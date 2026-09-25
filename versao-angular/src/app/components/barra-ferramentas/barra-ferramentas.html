@@ -1,0 +1,26 @@
+<section class="barra-ferramentas" aria-label="Pesquisa e filtros">
+
+  <input
+    type="search"
+    id="pesquisa"
+    class="campo"
+    placeholder="Pesquisar tarefas…"
+    aria-label="Pesquisar tarefas"
+  />
+
+  <select
+    id="filtro-prioridade"
+    class="campo"
+    aria-label="Filtrar por prioridade"
+  >
+    <option value="todas">Todas as prioridades</option>
+    @for (valor of ordem; track valor) {
+      <option [value]="valor">{{ prioridades[valor] }}</option>
+    }
+  </select>
+
+  <button type="button" id="btn-nova" class="btn btn-primario">
+    + Nova tarefa
+  </button>
+
+</section>

@@ -1,0 +1,19 @@
+<section class="coluna" [attr.data-estado]="estado()">
+
+  <header class="coluna-topo">
+    <h2>{{ titulo() }}</h2>
+    <span class="contador">{{ tarefas().length }}</span>
+  </header>
+
+  <div class="coluna-lista">
+
+    @for (tarefa of tarefas(); track tarefa.id) {
+      <app-cartao-tarefa
+        [tarefa]="tarefa"
+        [projeto]="projetoDe(tarefa.projetoId)"
+      />
+    }
+
+  </div>
+
+</section>

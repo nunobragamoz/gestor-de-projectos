@@ -1,0 +1,99 @@
+<dialog
+  id="modal-tarefa"
+  class="modal"
+  aria-labelledby="modal-titulo"
+>
+
+  <form
+    id="form-tarefa"
+    class="form"
+    method="dialog"
+    novalidate
+  >
+
+    <h2 id="modal-titulo">Nova tarefa</h2>
+
+    <input type="hidden" id="tarefa-id" />
+
+    <label for="tarefa-titulo-input">
+      Título <span aria-hidden="true">*</span>
+    </label>
+
+    <input
+      type="text"
+      id="tarefa-titulo-input"
+      class="campo"
+      required
+      maxlength="80"
+    />
+
+    <p class="erro" id="erro-titulo" hidden>
+      O título é obrigatório.
+    </p>
+
+    <label for="tarefa-descricao-input">Descrição</label>
+
+    <textarea
+      id="tarefa-descricao-input"
+      class="campo"
+      rows="4"
+      maxlength="500"
+    ></textarea>
+
+    <label for="tarefa-projeto-input">Projeto</label>
+
+    <select id="tarefa-projeto-input" class="campo">
+      @for (projeto of projetos(); track projeto.id) {
+        <option [value]="projeto.id">{{ projeto.nome }}</option>
+      }
+    </select>
+
+    <div class="form-linha">
+
+      <div>
+
+        <label for="tarefa-prioridade-input">Prioridade</label>
+
+        <select id="tarefa-prioridade-input" class="campo">
+          @for (valor of ordem; track valor) {
+            <option [value]="valor" [selected]="valor === 'media'">
+              {{ prioridades[valor] }}
+            </option>
+          }
+        </select>
+
+      </div>
+
+      <div>
+
+        <label for="tarefa-estado-input">Estado</label>
+
+        <select id="tarefa-estado-input" class="campo">
+          @for (estado of estados; track estado.valor) {
+            <option
+              [value]="estado.valor"
+              [selected]="estado.valor === 'por-fazer'"
+            >
+              {{ estado.rotulo }}
+            </option>
+          }
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="form-acoes">
+
+      <button type="button" id="btn-cancelar" class="btn">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primario">
+        Guardar
+      </button>
+
+    </div>
+
+  </form>
+
+</dialog>

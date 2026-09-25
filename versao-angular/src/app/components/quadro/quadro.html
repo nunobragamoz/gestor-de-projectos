@@ -1,0 +1,12 @@
+<main class="quadro" id="quadro">
+
+  @for (estado of estados; track estado.valor) {
+    <app-lista-tarefas
+      [estado]="estado.valor"
+      [titulo]="estado.titulo"
+      [tarefas]="tarefasDe(estado.valor)"
+      [projetos]="projetos()"
+    />
+  }
+
+</main>
