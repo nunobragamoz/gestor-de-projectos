@@ -408,13 +408,25 @@ acompanham os tokens se forem alterados.
   padding: 0 var(--gap) 0.75rem;
 }
 
+/* min-width: 0 deixa o texto encolher dentro do flex; sem isto um nome
+   comprido sem espaços empurrava a página para o lado. */
+.projeto-atual > div {
+  min-width: 0;
+}
+
+.projeto-atual .btn {
+  flex: none;
+}
+
 .projeto-atual h2 {
   font-size: 1.25rem;
+  overflow-wrap: anywhere;
 }
 
 .projeto-cliente {
   color: var(--text-muted);
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 /* Etiqueta do projeto no cartão */
@@ -427,9 +439,11 @@ acompanham os tokens se forem alterados.
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--text-muted);
+  overflow-wrap: anywhere;
 }
 
 .tarefa-projeto::before {
+  flex: none;
   content: "";
   width: 0.5rem;
   height: 0.5rem;
@@ -571,9 +585,17 @@ acompanham os tokens se forem alterados.
     border-color: transparent;
   }
 
+  /* Na barra lateral os nomes compridos passam à linha seguinte; em mobile
+     (chips) continuam numa linha e a lista faz scroll. */
+  .projeto-item {
+    white-space: normal;
+  }
+
   .projeto-nome {
     flex: 1;
+    min-width: 0;
     text-align: left;
+    overflow-wrap: anywhere;
   }
 }
 
