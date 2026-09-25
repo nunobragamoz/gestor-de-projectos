@@ -380,6 +380,116 @@ $(function () {
     render();
   });
 
+  /* Tarefas */
+
+  function procurarTarefa(id) {
+    return tarefas.find(function (tarefa) {
+      return tarefa.id === id;
+    });
+  }
+
+  function tarefaDoCartao(elemento) {
+    return procurarTarefa($(elemento).closest('.tarefa').attr('data-id'));
+  }
+
+  function mostrarErroTitulo(mostrar) {
+    $('#erro-titulo').prop('hidden', !mostrar);
+    $('#tarefa-titulo-input').attr('aria-invalid', mostrar ? 'true' : null);
+  }
+
+  function abrirFormularioTarefa(tarefa) {
+    // Cada tarefa pertence a um projeto, por isso sem projetos não há tarefas.
+    if (projetos.length === 0) {
+      alert('Para criar uma tarefa, crie primeiro um projeto.');
+      abrirFormularioProjeto(null);
+      return;
+    }
+
+    // Em "Todos os projetos" pré-seleciona o primeiro projeto.
+    const projetoId = procurarProjeto(projetoSelecionadoId) ? projetoSelecionadoId : projetos[0].id;
+
+    $('#modal-titulo').text(tarefa ? 'Editar tarefa' : 'Nova tarefa');
+    $('#tarefa-id').val(tarefa ? tarefa.id : '');
+    $('#tarefa-titulo-input').val(tarefa ? tarefa.titulo : '');
+    $('#tarefa-descricao-input').val(tarefa ? tarefa.descricao : '');
+    $('#tarefa-projeto-input').val(tarefa ? tarefa.projetoId : projetoId);
+    $('#tarefa-prioridade-input').val(tarefa ? tarefa.prioridade : 'media');
+    $('#tarefa-estado-input').val(tarefa ? tarefa.estado : 'por-fazer');
+    mostrarErroTitulo(false);
+
+    $('#modal-tarefa')[0].showModal();
+  }
+
+  function fecharFormularioTarefa() {
+    $('#modal-tarefa')[0].close();
+  }
+
+  $('#btn-nova').on('click', function () {
+    abrirFormularioTarefa(null);
+  });
+
+  $('#btn-cancelar').on('click', fecharFormularioTarefa);
+
+  $('#tarefa-titulo-input').on('input', function () {
+    mostrarErroTitulo(false);
+  });
+
+  $('#form-tarefa').on('submit', function (evento) {
+    evento.preventDefault();
+
+    const titulo = $('#tarefa-titulo-input').val().trim();
+
+    if (!titulo) {
+      mostrarErroTitulo(true);
+      $('#tarefa-titulo-input').trigger('focus');
+      return;
+    }
+
+    // Campo escondido vazio: criar. Preenchido: editar essa tarefa.
+    const id = $('#tarefa-id').val();
+    const dados = {
+      titulo: titulo,
+      descricao: $('#tarefa-descricao-input').val().trim(),
+      prioridade: $('#tarefa-prioridade-input').val(),
+      estado: $('#tarefa-estado-input').val(),
+      projetoId: $('#tarefa-projeto-input').val(),
+    };
+
+    if (id) {
+      Object.assign(procurarTarefa(id), dados);
+    } else {
+      tarefas.push(Object.assign(
+        { id: crypto.randomUUID(), criadaEm: new Date().toISOString() },
+        dados
+      ));
+    }
+
+    gravar();
+    fecharFormularioTarefa();
+    render();
+  });
+
+  // Os cartões são recriados em cada render, por isso os eventos ficam no
+  // #quadro e o jQuery verifica em que botão foi o clique.
+  $('#quadro').on('click', '.btn-editar', function () {
+    abrirFormularioTarefa(tarefaDoCartao(this));
+  });
+
+  $('#quadro').on('click', '.btn-apagar', function () {
+    const tarefa = tarefaDoCartao(this);
+
+    if (!confirm('Apagar a tarefa "' + tarefa.titulo + '"?')) {
+      return;
+    }
+
+    tarefas = tarefas.filter(function (item) {
+      return item.id !== tarefa.id;
+    });
+
+    gravar();
+    render();
+  });
+
   /* Arranque */
 
   // Só usa os dados de exemplo se a chave nunca foi gravada. Se o utilizador
