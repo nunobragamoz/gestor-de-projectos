@@ -1,0 +1,162 @@
+GESTOR DE TAREFAS - INSTRUÇÕES PARA CORRER E TESTAR
+=====================================================
+
+O projeto tem três versões da mesma aplicação, cada uma na sua pasta:
+
+  versao-jquery/    jQuery (não precisa de instalação)
+  versao-react/     React com Vite
+  versao-angular/   Angular
+
+Não há servidor nem base de dados: os dados ficam guardados no
+localStorage do browser.
+
+
+1. REQUISITOS
+-------------
+
+- Um browser atual: Chrome, Firefox, Edge ou Safari.
+- Para React e Angular: Node.js 22.22 ou 24.15 (ou mais recente) e npm.
+  Para confirmar a versão instalada, num terminal:
+
+    node -v
+    npm -v
+
+  O Node.js pode ser instalado a partir de https://nodejs.org (versão LTS).
+
+- Opcional, para a versão jQuery: o Visual Studio Code com a extensão
+  "Live Server".
+
+Nota: a pasta chama-se "Caso Prático" (com espaço e acento). Nos comandos
+do terminal, escreva o caminho entre aspas, por exemplo:
+
+    cd "Caso Prático/versao-react"
+
+
+2. VERSÃO JQUERY
+----------------
+
+Não precisa de instalar nada. O jQuery está incluído na pasta
+versao-jquery/lib/.
+
+Opção A - abrir o ficheiro diretamente:
+  Fazer duplo clique em versao-jquery/index.html.
+
+Opção B - com um servidor local (recomendado):
+  1. Abrir a pasta versao-jquery no Visual Studio Code.
+  2. Clicar com o botão direito em index.html e escolher
+     "Open with Live Server".
+
+Diferença entre as duas opções: na primeira utilização, a app carrega os
+dados de exemplo do ficheiro dados-exemplo.json com $.ajax(). Quando o
+index.html é aberto diretamente (endereço file://), o browser bloqueia
+esse pedido por segurança, e a app usa os mesmos dados definidos no
+script.js. A app funciona nos dois casos; só com o Live Server se vê o
+$.ajax() a carregar o JSON.
+
+
+3. VERSÃO REACT
+---------------
+
+Na primeira vez, instalar as dependências:
+
+    cd "Caso Prático/versao-react"
+    npm install
+
+Correr a aplicação:
+
+    npm run dev
+
+Abrir no browser o endereço mostrado no terminal
+(normalmente http://localhost:5173). Para parar: Ctrl + C no terminal.
+
+Outros comandos:
+
+    npm run build     cria a versão final na pasta dist/
+    npm run preview   mostra a versão final (depois do build)
+    npm run lint      verifica o código com o ESLint
+
+
+4. VERSÃO ANGULAR
+-----------------
+
+Na primeira vez, instalar as dependências:
+
+    cd "Caso Prático/versao-angular"
+    npm install
+
+Correr a aplicação:
+
+    npm start
+
+Abrir no browser http://localhost:4200. A app abre em /projetos, e cada
+projeto tem o seu endereço (/projetos/<id>). Para parar: Ctrl + C no
+terminal.
+
+Outro comando:
+
+    npm run build     cria a versão final na pasta dist/
+
+
+5. COMO TESTAR
+--------------
+
+A lista completa de testes está no ficheiro TESTES.md, na raiz do
+projeto. Tem uma coluna para cada versão, para marcar o resultado.
+
+Antes de testar, apagar os dados guardados, para a app começar com os
+dados de exemplo (3 projetos e 5 tarefas):
+
+  1. Abrir a app no browser.
+  2. Abrir as ferramentas de programador (F12, ou Cmd + Option + I no Mac).
+  3. Separador "Application" (no Firefox: "Armazenamento") >
+     Local Storage > escolher o endereço da app > apagar tudo.
+  4. Recarregar a página.
+
+Cada endereço tem o seu próprio localStorage. Por isso as três versões
+não partilham dados entre si, e a versão jQuery aberta com file:// tem
+dados diferentes da mesma versão aberta com o Live Server.
+
+Teste rápido (cerca de 5 minutos, repetir em cada versão):
+
+  1. Criar um projeto: botão "+" ao lado de "Projetos".
+  2. Criar uma tarefa nesse projeto: botão "+ Nova tarefa".
+  3. Tentar guardar uma tarefa sem título: deve aparecer
+     "O título é obrigatório."
+  4. Mudar o estado da tarefa no select do cartão: o cartão muda de
+     coluna.
+  5. Editar a tarefa e depois apagá-la.
+  6. Pesquisar "orcamento" (sem acento): deve encontrar
+     "Enviar orçamento ao cliente".
+  7. Filtrar por prioridade "Alta".
+  8. Recarregar a página: os dados mantêm-se.
+  9. Apagar o projeto: o aviso diz quantas tarefas vão ser apagadas.
+
+Testar em mobile e tablet:
+  Nas ferramentas de programador, ativar a barra de dispositivos
+  (Ctrl + Shift + M, ou Cmd + Shift + M no Mac) e experimentar as
+  larguras 375px, 768px e 1024px ou mais. As três versões devem ficar
+  iguais.
+
+Testar com o teclado:
+  Usar Tab, Shift + Tab, Enter e Esc sem o rato. O foco deve estar
+  sempre visível e não se deve perder depois de guardar ou apagar.
+
+
+6. PROBLEMAS FREQUENTES
+-----------------------
+
+"npm: command not found"
+  O Node.js não está instalado (ver ponto 1).
+
+"The Angular CLI requires a minimum Node.js version"
+  O Node.js é demasiado antigo. Instalar a versão LTS mais recente.
+
+"Port 4200 is already in use" (Angular)
+  A app já está a correr noutro terminal. Fechar esse terminal ou usar
+  o endereço que já está aberto. O React não mostra este erro: passa
+  sozinho para a porta seguinte (5174, 5175...), por isso use sempre o
+  endereço que aparece no terminal.
+
+A app aparece vazia, sem dados de exemplo
+  Os dados de exemplo só aparecem na primeira utilização. Apagar o
+  localStorage (ver ponto 5) e recarregar a página.
